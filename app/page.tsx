@@ -1,113 +1,360 @@
+import { AiFillAudio, AiFillBulb, AiFillFileText } from "react-icons/ai";
+import { BiCrown } from "react-icons/bi";
+import { BsStarFill, BsStarHalf } from "react-icons/bs";
+import "./style.css";
+import { Inter, Fjalla_One } from "next/font/google";
+import LandingImg from "../public/assets/landing.png"
 import Image from "next/image";
+import { RiLeafLine } from "react-icons/ri";
+
+const fjalla_one = Fjalla_One({ subsets: ["latin"], weight: ["400"] })
+const inter = Inter({ subsets: ["latin"] });
 
 export default function Home() {
   return (
-    <main className="flex min-h-screen flex-col items-center justify-between p-24">
-      <div className="z-10 w-full max-w-5xl items-center justify-between font-mono text-sm lg:flex">
-        <p className="fixed left-0 top-0 flex w-full justify-center border-b border-gray-300 bg-gradient-to-b from-zinc-200 pb-6 pt-8 backdrop-blur-2xl dark:border-neutral-800 dark:bg-zinc-800/30 dark:from-inherit lg:static lg:w-auto  lg:rounded-xl lg:border lg:bg-gray-200 lg:p-4 lg:dark:bg-zinc-800/30">
-          Get started by editing&nbsp;
-          <code className="font-mono font-bold">app/page.tsx</code>
-        </p>
-        <div className="fixed bottom-0 left-0 flex h-48 w-full items-end justify-center bg-gradient-to-t from-white via-white dark:from-black dark:via-black lg:static lg:size-auto lg:bg-none">
-          <a
-            className="pointer-events-none flex place-items-center gap-2 p-8 lg:pointer-events-auto lg:p-0"
-            href="https://vercel.com?utm_source=create-next-app&utm_medium=appdir-template&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            By{" "}
-            <Image
-              src="/vercel.svg"
-              alt="Vercel Logo"
-              className="dark:invert"
-              width={100}
-              height={24}
-              priority
-            />
-          </a>
+    <body className={inter.className}>
+      <nav className="nav">
+        <div className="nav__wrapper">
+          <figure className="nav__img--mask">
+            <h1 className={fjalla_one.className} style={{ fontSize: "48px", color: "#032b41"}}>LitStream</h1>
+          </figure>
+          <ul className="nav__list--wrapper">
+            <li className="nav__list nav__list--login">Login</li>
+            <li className="nav__list nav__list--mobile">About</li>
+            <li className="nav__list nav__list--mobile">Contact</li>
+            <li className="nav__list nav__list--mobile">Help</li>
+          </ul>
         </div>
-      </div>
-
-      <div className="relative z-[-1] flex place-items-center before:absolute before:h-[300px] before:w-full before:-translate-x-1/2 before:rounded-full before:bg-gradient-radial before:from-white before:to-transparent before:blur-2xl before:content-[''] after:absolute after:-z-20 after:h-[180px] after:w-full after:translate-x-1/3 after:bg-gradient-conic after:from-sky-200 after:via-blue-200 after:blur-2xl after:content-[''] before:dark:bg-gradient-to-br before:dark:from-transparent before:dark:to-blue-700 before:dark:opacity-10 after:dark:from-sky-900 after:dark:via-[#0141ff] after:dark:opacity-40 sm:before:w-[480px] sm:after:w-[240px] before:lg:h-[360px]">
-        <Image
-          className="relative dark:drop-shadow-[0_0_0.3rem_#ffffff70] dark:invert"
-          src="/next.svg"
-          alt="Next.js Logo"
-          width={180}
-          height={37}
-          priority
-        />
-      </div>
-
-      <div className="mb-32 grid text-center lg:mb-0 lg:w-full lg:max-w-5xl lg:grid-cols-4 lg:text-left">
-        <a
-          href="https://nextjs.org/docs?utm_source=create-next-app&utm_medium=appdir-template&utm_campaign=create-next-app"
-          className="group rounded-lg border border-transparent px-5 py-4 transition-colors hover:border-gray-300 hover:bg-gray-100 hover:dark:border-neutral-700 hover:dark:bg-neutral-800/30"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <h2 className="mb-3 text-2xl font-semibold">
-            Docs{" "}
-            <span className="inline-block transition-transform group-hover:translate-x-1 motion-reduce:transform-none">
-              -&gt;
-            </span>
-          </h2>
-          <p className="m-0 max-w-[30ch] text-sm opacity-50">
-            Find in-depth information about Next.js features and API.
-          </p>
-        </a>
-
-        <a
-          href="https://nextjs.org/learn?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-          className="group rounded-lg border border-transparent px-5 py-4 transition-colors hover:border-gray-300 hover:bg-gray-100 hover:dark:border-neutral-700 hover:dark:bg-neutral-800/30"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <h2 className="mb-3 text-2xl font-semibold">
-            Learn{" "}
-            <span className="inline-block transition-transform group-hover:translate-x-1 motion-reduce:transform-none">
-              -&gt;
-            </span>
-          </h2>
-          <p className="m-0 max-w-[30ch] text-sm opacity-50">
-            Learn about Next.js in an interactive course with&nbsp;quizzes!
-          </p>
-        </a>
-
-        <a
-          href="https://vercel.com/templates?framework=next.js&utm_source=create-next-app&utm_medium=appdir-template&utm_campaign=create-next-app"
-          className="group rounded-lg border border-transparent px-5 py-4 transition-colors hover:border-gray-300 hover:bg-gray-100 hover:dark:border-neutral-700 hover:dark:bg-neutral-800/30"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <h2 className="mb-3 text-2xl font-semibold">
-            Templates{" "}
-            <span className="inline-block transition-transform group-hover:translate-x-1 motion-reduce:transform-none">
-              -&gt;
-            </span>
-          </h2>
-          <p className="m-0 max-w-[30ch] text-sm opacity-50">
-            Explore starter templates for Next.js.
-          </p>
-        </a>
-
-        <a
-          href="https://vercel.com/new?utm_source=create-next-app&utm_medium=appdir-template&utm_campaign=create-next-app"
-          className="group rounded-lg border border-transparent px-5 py-4 transition-colors hover:border-gray-300 hover:bg-gray-100 hover:dark:border-neutral-700 hover:dark:bg-neutral-800/30"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <h2 className="mb-3 text-2xl font-semibold">
-            Deploy{" "}
-            <span className="inline-block transition-transform group-hover:translate-x-1 motion-reduce:transform-none">
-              -&gt;
-            </span>
-          </h2>
-          <p className="m-0 max-w-[30ch] text-balance text-sm opacity-50">
-            Instantly deploy your Next.js site to a shareable URL with Vercel.
-          </p>
-        </a>
-      </div>
-    </main>
+      </nav>
+      <section id="landing">
+        <div className="row">
+          <div className="container">
+            <div className="landing__wrapper">
+              <div className="landing__content">
+                <div className="landing__content__title">
+                  Gain more knowledge <br className="remove--tablet" />
+                  in less time
+                </div>
+                <div className="landing__content__subtitle">
+                  Great summaries for busy people,
+                  <br className="remove--tablet" />
+                  individuals who barely have time to read,
+                  <br className="remove--tablet" />
+                  and even people who don&#39;t like to read.
+                </div>
+                <button className="btn home__cta--btn">Login</button>
+              </div>
+              <figure className="landing__image--mask">
+                <Image src={LandingImg} alt="landing" priority={true} />
+              </figure>
+            </div>
+          </div>
+        </div>
+      </section>
+      <section id="features">
+        <div className="row">
+          <div className="container">
+            <div className="section__title">
+              Understand books in few minutes
+            </div>
+            <div className="features__wrapper">
+              <div className="features">
+                <div className="features__icon">
+                  <AiFillFileText />
+                </div>
+                <div className="features__title">Read or listen</div>
+                <div className="features__sub--title">
+                  Save time by getting the core ideas from the best books.
+                </div>
+              </div>
+              <div className="features">
+                <div className="features__icon">
+                  <AiFillBulb />
+                </div>
+                <div className="features__title">Find your next read</div>
+                <div className="features__sub--title">
+                  Explore book lists and personalized recommendations.
+                </div>
+              </div>
+              <div className="features">
+                <div className="features__icon">
+                  <AiFillAudio />
+                </div>
+                <div className="features__title">Briefcasts</div>
+                <div className="features__sub--title">
+                  Gain valuable insights from briefcasts
+                </div>
+              </div>
+            </div>
+            <div className="statistics__wrapper">
+              <div className="statistics__content--header">
+                <div className="statistics__heading">
+                  Enhance your knowledge
+                </div>
+                <div className="statistics__heading">
+                  Achieve greater success
+                </div>
+                <div className="statistics__heading">Improve your health</div>
+                <div className="statistics__heading">
+                  Develop better parenting skills
+                </div>
+                <div className="statistics__heading">Increase happiness</div>
+                <div className="statistics__heading">
+                  Be the best version of yourself!
+                </div>
+              </div>
+              <div className="statistics__content--details">
+                <div className="statistics__data">
+                  <div className="statistics__data--number">93%</div>
+                  <div className="statistics__data--title">
+                    of LitStream members <b>significantly increase</b> reading
+                    frequency.
+                  </div>
+                </div>
+                <div className="statistics__data">
+                  <div className="statistics__data--number">96%</div>
+                  <div className="statistics__data--title">
+                    of LitStream members <b>establish better</b> habits.
+                  </div>
+                </div>
+                <div className="statistics__data">
+                  <div className="statistics__data--number">90%</div>
+                  <div className="statistics__data--title">
+                    have made <b>significant positive</b> change to their lives.
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div className="statistics__wrapper">
+              <div className="statistics__content--details statistics__content--details-second">
+                <div className="statistics__data">
+                  <div className="statistics__data--number">91%</div>
+                  <div className="statistics__data--title">
+                    of LitStream members <b>report feeling more productive</b>
+                    after incorporating the service into their daily routine.
+                  </div>
+                </div>
+                <div className="statistics__data">
+                  <div className="statistics__data--number">94%</div>
+                  <div className="statistics__data--title">
+                    of LitStream members have <b>noticed an improvement</b> in
+                    their overall comprehension and retention of information.
+                  </div>
+                </div>
+                <div className="statistics__data">
+                  <div className="statistics__data--number">88%</div>
+                  <div className="statistics__data--title">
+                    of LitStream members <b>feel more informed</b> about current
+                    events and industry trends since using the platform.
+                  </div>
+                </div>
+              </div>
+              <div className="statistics__content--header statistics__content--header-second">
+                <div className="statistics__heading">Expand your learning</div>
+                <div className="statistics__heading">Accomplish your goals</div>
+                <div className="statistics__heading">
+                  Strengthen your vitality
+                </div>
+                <div className="statistics__heading">
+                  Become a better caregiver
+                </div>
+                <div className="statistics__heading">Improve your mood</div>
+                <div className="statistics__heading">
+                  Maximize your abilities
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+      <section id="reviews">
+        <div className="row">
+          <div className="container">
+            <div className="section__title">What our members say</div>
+            <div className="reviews__wrapper">
+              <div className="review">
+                <div className="review__header">
+                  <div className="review__name">Hanna M.</div>
+                  <div className="review__stars">
+                    <BsStarFill />
+                  </div>
+                </div>
+                <div className="review__body">
+                  This app has been a <b>game-changer</b> for me! It's saved me
+                  so much time and effort in reading and comprehending books.
+                  Highly recommend it to all book lovers.
+                </div>
+              </div>
+              <div className="review">
+                <div className="review__header">
+                  <div className="review__name">David B.</div>
+                  <div className="review__stars">
+                    <BsStarFill />
+                  </div>
+                </div>
+                <div className="review__body">
+                  I love this app! It provides
+                  <b>concise and accurate summaries</b> of books in a way that
+                  is easy to understand. It's also very user-friendly and
+                  intuitive.
+                </div>
+              </div>
+              <div className="review">
+                <div className="review__header">
+                  <div className="review__name">Nathan S.</div>
+                  <div className="review__stars">
+                    <BsStarFill />
+                  </div>
+                </div>
+                <div className="review__body">
+                  This app is a great way to get the main takeaways from a book
+                  without having to read the entire thing.
+                  <b>The summaries are well-written and informative. </b>
+                  Definitely worth downloading.
+                </div>
+              </div>
+              <div className="review">
+                <div className="review__header">
+                  <div className="review__name">Ryan R.</div>
+                  <div className="review__stars">
+                    <BsStarFill />
+                  </div>
+                </div>
+                <div className="review__body">
+                  If you're a busy person who
+                  <b> loves reading but doesn't have the time</b> to read every
+                  book in full, this app is for you! The summaries are thorough
+                  and provide a great overview of the book's content.
+                </div>
+              </div>
+            </div>
+            <div className="reviews__btn--wrapper">
+              <button className="btn home__cta--btn">Login</button>
+            </div>
+          </div>
+        </div>
+      </section>
+      <section id="numbers">
+        <div className="row">
+          <div className="container">
+            <div className="section__title">
+              Start growing with LitStream now
+            </div>
+            <div className="numbers__wrapper">
+              <div className="numbers">
+                <div className="numbers__icon">
+                  <BiCrown />
+                </div>
+                <div className="numbers__title">3 Million</div>
+                <div className="numbers__sub--title">
+                  Downloads on all platforms
+                </div>
+              </div>
+              <div className="numbers">
+                <div className="numbers__icon numbers__star--icon">
+                  <BsStarFill />
+                  <BsStarFill />
+                  <BsStarFill />
+                  <BsStarFill />
+                  <BsStarHalf />
+                </div>
+                <div className="numbers__title">4.5 Stars</div>
+                <div className="numbers__sub--title">
+                  Average ratings on iOS and Google Play
+                </div>
+              </div>
+              <div className="numbers">
+                <div className="numbers__icon"><RiLeafLine /></div>
+                <div className="numbers__title">97%</div>
+                <div className="numbers__sub--title">
+                  Of LitStream members create a better reading habit
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+      <section id="footer">
+        <div className="row">
+          <div className="container">
+            <div className="footer__top--wrapper">
+              <div className="footer__block">
+                <div className="footer__link--title">Actions</div>
+                <div>
+                  <div className="footer__link--wrapper">
+                    <a className="footer__link">LitStream Magazine</a>
+                  </div>
+                  <div className="footer__link--wrapper">
+                    <a className="footer__link">Cancel Subscription</a>
+                  </div>
+                  <div className="footer__link--wrapper">
+                    <a className="footer__link">Help</a>
+                  </div>
+                  <div className="footer__link--wrapper">
+                    <a className="footer__link">Contact us</a>
+                  </div>
+                </div>
+              </div>
+              <div className="footer__block">
+                <div className="footer__link--title">Useful Links</div>
+                <div>
+                  <div className="footer__link--wrapper">
+                    <a className="footer__link">Pricing</a>
+                  </div>
+                  <div className="footer__link--wrapper">
+                    <a className="footer__link">LitStream Business</a>
+                  </div>
+                  <div className="footer__link--wrapper">
+                    <a className="footer__link">Gift Cards</a>
+                  </div>
+                  <div className="footer__link--wrapper">
+                    <a className="footer__link">Authors & Publishers</a>
+                  </div>
+                </div>
+              </div>
+              <div className="footer__block">
+                <div className="footer__link--title">Company</div>
+                <div>
+                  <div className="footer__link--wrapper">
+                    <a className="footer__link">About</a>
+                  </div>
+                  <div className="footer__link--wrapper">
+                    <a className="footer__link">Careers</a>
+                  </div>
+                  <div className="footer__link--wrapper">
+                    <a className="footer__link">Partners</a>
+                  </div>
+                  <div className="footer__link--wrapper">
+                    <a className="footer__link">Code of Conduct</a>
+                  </div>
+                </div>
+              </div>
+              <div className="footer__block">
+                <div className="footer__link--title">Other</div>
+                <div>
+                  <div className="footer__link--wrapper">
+                    <a className="footer__link">Sitemap</a>
+                  </div>
+                  <div className="footer__link--wrapper">
+                    <a className="footer__link">Legal Notice</a>
+                  </div>
+                  <div className="footer__link--wrapper">
+                    <a className="footer__link">Terms of Service</a>
+                  </div>
+                  <div className="footer__link--wrapper">
+                    <a className="footer__link">Privacy Policies</a>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div className="footer__copyright--wrapper">
+              <div className="footer__copyright">
+                Copyright &copy; 2023 LitStream.
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+    </body>
   );
 }
