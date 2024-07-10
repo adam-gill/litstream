@@ -12,7 +12,6 @@ import AuthModal from "@/components/AuthModal";
 import { useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { RootState } from "@/lib/store";
-import { increment } from "@/lib/features/counter/counterSlice";
 import { toggleModal } from "@/lib/features/modal/modalSlice";
 
 const fjalla_one = Fjalla_One({ subsets: ["latin"], weight: ["400"] });
@@ -43,7 +42,10 @@ export default function Home() {
               </h1>
             </figure>
             <ul className="nav__list--wrapper">
-              <li className="nav__list nav__list--login" onClick={() => openModal()}>
+              <li
+                className="nav__list nav__list--login"
+                onClick={() => openModal()}
+              >
                 Login
               </li>
               <li className="nav__list nav__list--mobile">About</li>
@@ -272,7 +274,12 @@ export default function Home() {
                 </div>
               </div>
               <div className="reviews__btn--wrapper">
-                <button className="btn home__cta--btn" onClick={() => openModal()}>Login</button>
+                <button
+                  className="btn home__cta--btn"
+                  onClick={() => openModal()}
+                >
+                  Login
+                </button>
               </div>
             </div>
           </div>
@@ -394,7 +401,7 @@ export default function Home() {
               </div>
               <div className="footer__copyright--wrapper">
                 <div className="footer__copyright">
-                  Copyright &copy; 2023 LitStream.
+                  Copyright &copy; 2024 LitStream.
                 </div>
               </div>
             </div>

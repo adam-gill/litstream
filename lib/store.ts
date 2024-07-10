@@ -1,13 +1,16 @@
 import { configureStore } from '@reduxjs/toolkit'
 import counterReducer from './features/counter/counterSlice'
 import authModalReducer from "./features/modal/modalSlice"
+import authReducer from "./features/auth/authSlice"
 
 export const makeStore = () => {
   return configureStore({
     reducer: {
       counter: counterReducer,
-      showModal: authModalReducer
+      showModal: authModalReducer,
+      auth: authReducer,
     },
+    middleware: (getDefaultMiddleware) => getDefaultMiddleware({serializableCheck: false})
   })
 }
 
