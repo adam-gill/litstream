@@ -2,7 +2,6 @@
 import { useRef } from 'react'
 import { Provider } from 'react-redux'
 import { makeStore, AppStore } from '../lib/store'
-import { authListener } from '@/lib/authListener'
 
 export default function StoreProvider({
   count,

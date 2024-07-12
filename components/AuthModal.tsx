@@ -1,17 +1,23 @@
 "use client";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import type { RootState } from "@/lib/store";
-import { toggleModal } from "@/lib/features/modal/modalSlice";
+import { setModal, toggleModal } from "@/lib/features/modal/modalSlice";
 import { BsX } from "react-icons/bs";
 import { MdAccountCircle } from "react-icons/md";
 import Image from "next/image";
-import { login, signUp } from "@/lib/auth";
+import { login, signInWithGoogle, signUp } from "@/lib/auth";
 import { useRouter } from "next/navigation";
 import { setUser } from "@/lib/features/auth/authSlice";
 import { IoMdEye, IoMdEyeOff } from "react-icons/io";
+import { signInWithEmailAndPassword } from "firebase/auth";
+import { auth } from "@/firebase";
 
-const AuthModal = () => {
+interface Props {
+  showModal: boolean
+}
+
+const AuthModal: React.FC<Props> = ({ showModal }) => {
   const modal = useSelector((state: RootState) => state.showModal.showModal);
   const dispatch = useDispatch();
   const [email, setEmail] = useState<string>("");
@@ -21,38 +27,68 @@ const AuthModal = () => {
   const [showPassword, setShowPassword] = useState<boolean>(false);
   const router = useRouter();
 
-  const handleSubmit = async () => {
-    if (isLogin) {
-      try {
-        const user = await login(email, password);
-        dispatch(setUser(user));
-        router.push("/for-you");
-      } catch (error) {
-        if (error instanceof Error) {
-          setError(error.message);
-        } else {
-          setError("An unexpected error occurred.");
-        }
-      }
-    } else {
-      try {
-        const user = await signUp(email, password);
-        console.log(user);
-        return user;
-      } catch (error) {
-        if (error instanceof Error) {
-          setError(error.message);
-        } else {
-          setError("An unexpected error occurred.");
-        }
-      }
+  const delay = (ms: number) => new Promise((res) => setTimeout(res, ms));
+
+  const handleLogin = async () => {
+
+    try {
+      const userCredential = await signInWithEmailAndPassword(
+        auth,
+        email,
+        password
+      );
+      console.log(modal)
+      document.body.classList.remove("overflow-hidden");
+      dispatch(toggleModal())
+
+
+      console.log(userCredential)
+      router.push("/for-you")
+
+      console.log(modal)
+    } catch (error) {
+      console.log(error);
     }
-  };
+  }
+
+  // const handleSubmit = async () => {
+  //   if (isLogin) {
+  //     try {
+  //       console.log("hit")
+  //       const user = await login(email, password);
+  //       dispatch(setUser(user));
+
+  //       useEffect(() => {
+  //         router.push("/for-you")
+  //       }, [handleSubmit, router])
+  //     } catch (error) {
+  //       if (error instanceof Error) {
+  //         setError(error.message);
+  //       } else {
+  //         setError("An unexpected error occurred.");
+  //       }
+  //     }
+  //   } else {
+  //     try {
+  //       const user = await signUp(email, password);
+  //       console.log(user);
+  //       return user;
+  //     } catch (error) {
+  //       if (error instanceof Error) {
+  //         setError(error.message);
+  //       } else {
+  //         setError("An unexpected error occurred.");
+  //       }
+  //     }
+  //   }
+
+
+  // };
 
   return (
     <div
       className={
-        modal ? "fixed w-full h-full bg-[#000000b0] z-[999]" : "hidden"
+        showModal ? "fixed w-full h-full bg-[#000000b0] z-[999]" : "hidden"
       }
     >
       <div className="relative w-full max-w-[400px] h-fit max-h-[500px] rounded-lg bg-white bg-back top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2">
@@ -68,7 +104,7 @@ const AuthModal = () => {
             }
           >
             <MdAccountCircle className="flex absolute left-1" size={32} />
-            <h1 className="text-xl">Continue as a Guest</h1>
+            <button onClick={() => router.push("for-you")} className="text-xl">Continue as a Guest</button>
           </div>
           <div
             className={
@@ -90,7 +126,7 @@ const AuthModal = () => {
                 alt="google"
               />
             </div>
-            <h1 className="text-xl">
+            <h1 className="text-xl" onClick={() => signInWithGoogle()}>
               {isLogin ? "Login with Google" : "Sign Up with Google"}
             </h1>
           </div>
@@ -131,12 +167,12 @@ const AuthModal = () => {
                 )}
               </div>
             </div>
-            <div
-              onClick={() => handleSubmit()}
+            <button
+              onClick={handleLogin}
               className="w-full relative rounded-lg flex text-xl items-center justify-center bg-[#2bd97c] text-black h-[40px] cursor-pointer hover:brightness-90 my-4"
             >
               {isLogin ? "Login" : "Sign Up"}
-            </div>
+            </button>
           </form>
         </div>
         <div className="w-full flex items-center justify-center py-2 cursor-pointer hover:text-blue-500">

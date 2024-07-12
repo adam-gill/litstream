@@ -30,7 +30,7 @@ export default function Home() {
   return (
     <>
       <div className="relative">
-        <AuthModal />
+        {modal && <AuthModal showModal={modal} />}
         <nav className="nav">
           <div className="nav__wrapper">
             <figure className="nav__img--mask">
