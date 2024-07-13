@@ -1,7 +1,9 @@
+import NotFinished from "@/components/NotFinished";
+
 const Settings = () => {
     return (
       <>
-          <h1 className="">This settings page</h1>
+          <NotFinished />
       </>
     );
   };

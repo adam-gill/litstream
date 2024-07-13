@@ -3,6 +3,7 @@ import { Inter } from "next/font/google";
 import "./globals.css";
 import { Provider } from "react-redux";
 import StoreProvider from "./StoreProvider";
+import { cn } from "@/lib/utils";
 
 const inter = Inter({ subsets: ["latin"] });
 
@@ -20,8 +21,10 @@ export default function RootLayout({
   return (
     <StoreProvider count={0} showModal={false}>
       <html lang="en">
-        <body className={inter.className}>{children}</body>
+        <body className={cn(inter.className)}>{children}</body>
       </html>
     </StoreProvider>
   );
 }
+
+// test

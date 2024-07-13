@@ -10,6 +10,8 @@
 /.vscode
 .vscode
 
+test.ts
+
 # testing
 /coverage
 

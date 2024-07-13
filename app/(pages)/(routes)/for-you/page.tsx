@@ -1,7 +1,17 @@
-const ForYou = () => {
+import PageContainer from "@/components/PageContainer";
+import SearchBar from "@/components/SearchBar";
+import Selected from "@/components/Selected";
+import Recommended from "@/components/Recommended"
+
+const ForYou = async () => {
+
   return (
     <>
-        <h1 className="">This is for you page</h1>
+      <SearchBar />
+      <PageContainer>
+        <Selected />
+        <Recommended />
+      </PageContainer>
     </>
   );
 };

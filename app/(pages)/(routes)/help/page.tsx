@@ -1,7 +1,9 @@
+import NotFinished from "@/components/NotFinished";
+
 const Help = () => {
     return (
       <>
-          <h1 className="">This help page</h1>
+          <NotFinished />
       </>
     );
   };

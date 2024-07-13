@@ -1,10 +1,10 @@
+import NotFinished from "@/components/NotFinished";
+import Image from "next/image";
+
 const Search = () => {
-    return (
-      <>
-          <h1 className="">This search page</h1>
-      </>
-    );
-  };
-  
-  export default Search;
-  
+  return (
+    <NotFinished />
+  );
+};
+
+export default Search;
