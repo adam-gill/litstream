@@ -5,16 +5,20 @@ import axios from "axios";
 import { useEffect, useState } from "react";
 import BookCard from "./BookCard";
 
-const Recommended = () => {
+interface Props {
+  title: string,
+  subtitle: string,
+  dataUrl: string,
+}
+
+const Recommended: React.FC<Props> = ({ title, subtitle, dataUrl }) => {
   const [books, setBooks] = useState<Book[]>([]);
   const [loading, setLoading] = useState<boolean>(true);
 
   useEffect(() => {
     const getRecommended = async () => {
       try {
-        const res = await axios.get(
-          "https://us-central1-summaristt.cloudfunctions.net/getBooks?status=recommended"
-        );
+        const res = await axios.get(dataUrl);
         setBooks(res.data);
         setLoading(false);
       } catch (error) {
@@ -31,9 +35,12 @@ const Recommended = () => {
         <h1>loading...</h1>
       ) : (
         <>
-          <h1 className="font-bold text-2xl mb-4">Recommended for You</h1>
-          <p className="mb-4">We think you'll like these</p>
-          <BookCard book={books[0]} />
+          <h1 className="font-bold text-2xl mb-4">{title}</h1>
+          <p className="mb-4">{subtitle}</p>
+          <div className="w-full flex flex-row flex-wrap justify-around">
+          {books.slice(0, 5).map((book) => <BookCard key={book.id} book={book} />)}
+
+          </div>
         </>
       )}
     </>

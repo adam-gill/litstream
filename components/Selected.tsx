@@ -47,10 +47,10 @@ const Selected = async () => {
     return (
       <>
         <h1 className="font-bold text-2xl mb-4">Selected just for You</h1>
-        <div className="w-[calc(100% / 3)* 2] max-w-[700px] bg-[#fbefd6] rounded-md p-6 mb-6 flex items-start justify-between flex-row">
-          <h1 className="w-2/5">{book.subTitle}</h1>
-          <div className="flex h-[128px] w-[1px] bg-gray-300 rounded-full mx-6"></div>
-          <div className="flex w-3/5">
+        <div className="mmd:w-full w-[calc(100% / 3)* 2] max-w-[700px] bg-[#fbefd6] rounded-md p-6 mb-6 flex items-start justify-between flex-row">
+          <h1 className="hidden mmd:block w-2/5">{book.subTitle}</h1>
+          <div className="hidden mmd:flex h-[128px] w-[1px] bg-gray-300 rounded-full mx-6"></div>
+          <div className="w-full mmd:flex mmd:w-3/5">
             <div className="flex flex-row">
               <img src={book.imageLink} style={{ maxWidth: "140px" }} />
               <div className="flex flex-col">

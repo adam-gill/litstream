@@ -30,7 +30,8 @@ const SideBar = (props: Props) => {
 
   return (
     <>
-      <div className="flex absolute flex-col w-[225px] bg-[#87CEEB10] h-full">
+      <div className="flex fixed flex-col w-[225px] bg-[#87CEEB10] h-full">
+        <Link href={"/"}>
         <h1
           className={fjalla_one.className}
           style={{
@@ -44,6 +45,7 @@ const SideBar = (props: Props) => {
         >
           LitStream
         </h1>
+        </Link>
         <div className="flex flex-col justify-between h-full">
           <div className="flex flex-col">
             <Link href="/for-you">

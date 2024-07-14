@@ -14,7 +14,7 @@ import { signInWithEmailAndPassword } from "firebase/auth";
 import { auth } from "@/firebase";
 
 interface Props {
-  showModal: boolean
+  showModal: boolean;
 }
 
 const AuthModal: React.FC<Props> = ({ showModal }) => {
@@ -30,26 +30,24 @@ const AuthModal: React.FC<Props> = ({ showModal }) => {
   const delay = (ms: number) => new Promise((res) => setTimeout(res, ms));
 
   const handleLogin = async () => {
-
     try {
       const userCredential = await signInWithEmailAndPassword(
         auth,
         email,
         password
       );
-      console.log(modal)
+      console.log(modal);
       document.body.classList.remove("overflow-hidden");
-      dispatch(toggleModal())
+      dispatch(toggleModal());
 
+      console.log(userCredential);
+      router.push("/for-you");
 
-      console.log(userCredential)
-      router.push("/for-you")
-
-      console.log(modal)
+      console.log(modal);
     } catch (error) {
       console.log(error);
     }
-  }
+  };
 
   // const handleSubmit = async () => {
   //   if (isLogin) {
@@ -82,7 +80,6 @@ const AuthModal: React.FC<Props> = ({ showModal }) => {
   //     }
   //   }
 
-
   // };
 
   return (
@@ -104,7 +101,16 @@ const AuthModal: React.FC<Props> = ({ showModal }) => {
             }
           >
             <MdAccountCircle className="flex absolute left-1" size={32} />
-            <button onClick={() => router.push("for-you")} className="text-xl">Continue as a Guest</button>
+            <button
+              onClick={() => {
+                document.body.classList.remove("overflow-hidden");
+                dispatch(toggleModal());
+                router.push("for-you");
+              }}
+              className="text-xl"
+            >
+              Continue as a Guest
+            </button>
           </div>
           <div
             className={

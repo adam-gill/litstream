@@ -1,7 +1,7 @@
 import PageContainer from "@/components/PageContainer";
 import SearchBar from "@/components/SearchBar";
 import Selected from "@/components/Selected";
-import Recommended from "@/components/Recommended"
+import BookSection from "@/components/BookSection"
 
 const ForYou = async () => {
 
@@ -10,7 +10,8 @@ const ForYou = async () => {
       <SearchBar />
       <PageContainer>
         <Selected />
-        <Recommended />
+        <BookSection title="Recommended For You" subtitle="We think you'll like these" dataUrl="https://us-central1-summaristt.cloudfunctions.net/getBooks?status=recommended"/>
+        <BookSection title="Suggested Books" subtitle="Browse related books" dataUrl="https://us-central1-summaristt.cloudfunctions.net/getBooks?status=suggested"/>
       </PageContainer>
     </>
   );
