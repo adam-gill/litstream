@@ -1,9 +1,11 @@
 import type { Metadata } from "next";
 import { Inter } from "next/font/google";
 import "./globals.css";
-import { Provider } from "react-redux";
+import { Provider, useSelector } from "react-redux";
 import StoreProvider from "./StoreProvider";
 import { cn } from "@/lib/utils";
+import AuthModal from "@/components/AuthModal";
+import { RootState } from "@/lib/store";
 
 const inter = Inter({ subsets: ["latin"] });
 
@@ -13,6 +15,8 @@ export const metadata: Metadata = {
   icons: "/favicon.ico",
 };
 
+
+
 export default function RootLayout({
   children,
 }: Readonly<{
@@ -21,7 +25,9 @@ export default function RootLayout({
   return (
     <StoreProvider count={0} showModal={false}>
       <html lang="en">
-        <body className={cn(inter.className)}>{children}</body>
+        <body className={cn(inter.className)}>
+          {children}
+        </body>
       </html>
     </StoreProvider>
   );

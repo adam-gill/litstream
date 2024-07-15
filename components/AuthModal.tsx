@@ -10,7 +10,7 @@ import { login, signInWithGoogle, signUp } from "@/lib/auth";
 import { useRouter } from "next/navigation";
 import { setUser } from "@/lib/features/auth/authSlice";
 import { IoMdEye, IoMdEyeOff } from "react-icons/io";
-import { signInWithEmailAndPassword } from "firebase/auth";
+import { GoogleAuthProvider, signInWithEmailAndPassword, signInWithRedirect } from "firebase/auth";
 import { auth } from "@/firebase";
 
 interface Props {
@@ -19,6 +19,7 @@ interface Props {
 
 const AuthModal: React.FC<Props> = ({ showModal }) => {
   const modal = useSelector((state: RootState) => state.showModal.showModal);
+  const user = useSelector((state: RootState) => state.auth.user)
   const dispatch = useDispatch();
   const [email, setEmail] = useState<string>("");
   const [password, setPassword] = useState<string>("");
@@ -29,58 +30,63 @@ const AuthModal: React.FC<Props> = ({ showModal }) => {
 
   const delay = (ms: number) => new Promise((res) => setTimeout(res, ms));
 
-  const handleLogin = async () => {
-    try {
-      const userCredential = await signInWithEmailAndPassword(
-        auth,
-        email,
-        password
-      );
-      console.log(modal);
-      document.body.classList.remove("overflow-hidden");
-      dispatch(toggleModal());
-
-      console.log(userCredential);
-      router.push("/for-you");
-
-      console.log(modal);
-    } catch (error) {
-      console.log(error);
-    }
+  const guestLogin = {
+    email: "adamgill20529@gmail.com",
+    password: "Rigby345$",
   };
 
-  // const handleSubmit = async () => {
-  //   if (isLogin) {
-  //     try {
-  //       console.log("hit")
-  //       const user = await login(email, password);
-  //       dispatch(setUser(user));
+  const handleLogin = async (method: string) => {
+    if (method === "guest") {
+      try {
+        const userCredential = await signInWithEmailAndPassword(
+          auth,
+          guestLogin.email,
+          guestLogin.password
+        );
 
-  //       useEffect(() => {
-  //         router.push("/for-you")
-  //       }, [handleSubmit, router])
-  //     } catch (error) {
-  //       if (error instanceof Error) {
-  //         setError(error.message);
-  //       } else {
-  //         setError("An unexpected error occurred.");
-  //       }
-  //     }
-  //   } else {
-  //     try {
-  //       const user = await signUp(email, password);
-  //       console.log(user);
-  //       return user;
-  //     } catch (error) {
-  //       if (error instanceof Error) {
-  //         setError(error.message);
-  //       } else {
-  //         setError("An unexpected error occurred.");
-  //       }
-  //     }
-  //   }
+        dispatch(setUser(userCredential.user))
+        dispatch(toggleModal());
+        router.push("/for-you");
+      } catch (error) {
+        console.log(error);
+      }
+    } else if (method === "emailAndPassword") {
+      try {
+        const userCredential = await signInWithEmailAndPassword(
+          auth,
+          email,
+          password
+        );
 
-  // };
+        dispatch(setUser(userCredential.user))
+        dispatch(toggleModal());
+        router.push("/for-you");
+      } catch (error) {
+        console.log(error);
+      }
+    } else if (method === "google") {
+      const provider = new GoogleAuthProvider();
+        try {
+          const userCredential = await signInWithRedirect(auth, provider);
+          console.log(userCredential);
+
+          dispatch(toggleModal());
+          router.push("/for-you")
+        } catch (error) {
+          return error;
+        }
+      };
+  };
+
+  useEffect(() => {
+    const unsubscribe = auth.onAuthStateChanged((user) => {
+      if (user) {
+        console.log(user) 
+        dispatch(setUser(user))
+      }
+    })
+    return () => unsubscribe()
+  }, [])
 
   return (
     <div
@@ -101,14 +107,7 @@ const AuthModal: React.FC<Props> = ({ showModal }) => {
             }
           >
             <MdAccountCircle className="flex absolute left-1" size={32} />
-            <button
-              onClick={() => {
-                document.body.classList.remove("overflow-hidden");
-                dispatch(toggleModal());
-                router.push("for-you");
-              }}
-              className="text-xl"
-            >
+            <button onClick={() => handleLogin("guest")} className="text-xl">
               Continue as a Guest
             </button>
           </div>
@@ -132,7 +131,7 @@ const AuthModal: React.FC<Props> = ({ showModal }) => {
                 alt="google"
               />
             </div>
-            <h1 className="text-xl" onClick={() => signInWithGoogle()}>
+            <h1 className="text-xl" onClick={() => handleLogin("google")}>
               {isLogin ? "Login with Google" : "Sign Up with Google"}
             </h1>
           </div>
@@ -174,7 +173,7 @@ const AuthModal: React.FC<Props> = ({ showModal }) => {
               </div>
             </div>
             <button
-              onClick={handleLogin}
+              onClick={() => handleLogin("emailAndPassword")}
               className="w-full relative rounded-lg flex text-xl items-center justify-center bg-[#2bd97c] text-black h-[40px] cursor-pointer hover:brightness-90 my-4"
             >
               {isLogin ? "Login" : "Sign Up"}

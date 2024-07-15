@@ -51,7 +51,6 @@ export const signInWithGoogle = async () => {
   try {
     const userCredential = await signInWithPopup(auth, provider)
     console.log(userCredential)
-    return userCredential.user
   } catch (error) {
     return error
   }

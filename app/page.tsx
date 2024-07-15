@@ -9,28 +9,40 @@ import LandingImg from "../public/assets/landing.png";
 import Image from "next/image";
 import { RiLeafLine } from "react-icons/ri";
 import AuthModal from "@/components/AuthModal";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { RootState } from "@/lib/store";
 import { toggleModal } from "@/lib/features/modal/modalSlice";
+import { onAuthStateChanged } from "firebase/auth";
+import { setUser } from "@/lib/features/auth/authSlice";
+import { auth } from "@/firebase";
+import useAuth from "@/lib/useAuth";
+import { useRouter } from "next/navigation";
 
 const fjalla_one = Fjalla_One({ subsets: ["latin"], weight: ["400"] });
-const inter = Inter({ subsets: ["latin"] });
 
 export default function Home() {
-  const [showModal, setShowModal] = useState<boolean>(false);
   const modal = useSelector((state: RootState) => state.showModal.showModal);
+  const user = useSelector((state: RootState) => state.auth.user)
   const dispatch = useDispatch();
+  const { loading } = useAuth()
+  const router = useRouter()
 
   const openModal = () => {
     dispatch(toggleModal());
-    document.body.classList.add("overflow-hidden");
   };
+
+  useEffect(() => {
+    if (!loading && !user) {
+      router.replace("/for-you")
+    }
+  }, [user, loading, router])
+
+  
 
   return (
     <>
-      <div className="relative">
-        {modal && <AuthModal showModal={modal} />}
+        <AuthModal showModal={modal} />
         <nav className="nav">
           <div className="nav__wrapper">
             <figure className="nav__img--mask">
@@ -407,7 +419,7 @@ export default function Home() {
             </div>
           </div>
         </section>
-      </div>
+      
     </>
   );
 }

@@ -4,15 +4,20 @@ import { CiStar, CiClock2 } from "react-icons/ci";
 import { Book } from "@/types/types";
 import { useEffect, useState, useRef } from "react";
 import Link from "next/link";
+import { setSidebar } from "@/lib/features/sidebar/sidebarSlice";
+import { useDispatch, useSelector } from "react-redux";
+import { RootState } from "@/lib/store";
 
 interface Props {
   book: Book;
   key: string;
 }
 
-const BookCard: React.FC<Props> = ({ book, key }) => {
+const BookCard: React.FC<Props> = ({ book }) => {
   const [duration, setDuration] = useState<number | null>();
   const audioRef = useRef<HTMLAudioElement>(null);
+  const sidebar = useSelector((state: RootState) => state.sidebar.sidebar);
+  const dispatch = useDispatch();
 
   const onLoadedMetadata = () => {
     setDuration(audioRef.current?.duration);
@@ -38,8 +43,8 @@ const BookCard: React.FC<Props> = ({ book, key }) => {
 
   return (
     <>
-      <Link href={"/book/" + book.id} className="hover:bg-[#87CEEB1f] relative">
-        <div key={key} className="w-full max-w-[180px] pt-8 px-3 pb-3">
+      <Link href={"/book/" + book.id} className="hover:bg-[#87CEEB1f] relative" onClick={() => dispatch(setSidebar({...sidebar, tabSelected: -1}))}>
+        <div key={book.id} className="w-full max-w-[180px] pt-8 px-3 pb-3">
           {book.subscriptionRequired && <div className="absolute bg-blue-600 rounded-xl top-0 right-0 text-xs px-[6px] py-[2px] text-white">Premium</div>}
           <audio
             className="hidden"

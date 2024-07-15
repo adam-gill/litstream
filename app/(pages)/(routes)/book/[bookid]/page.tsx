@@ -10,6 +10,7 @@ import { CiStar, CiClock2, CiMicrophoneOn, CiBookmark } from "react-icons/ci";
 import { HiOutlineLightBulb } from "react-icons/hi";
 import { PiBookOpenText } from "react-icons/pi";
 import { IoBookmark, IoBookmarkOutline } from "react-icons/io5";
+import { useRouter } from "next/navigation";
 
 const BookPage = ({ params }: { params: { bookid: string } }) => {
   const [loading, setLoading] = useState<boolean>(true);
@@ -17,6 +18,7 @@ const BookPage = ({ params }: { params: { bookid: string } }) => {
   const audioRef = useRef<HTMLAudioElement>(null);
   const [duration, setDuration] = useState<number | undefined>(undefined);
   const [bookmarked, setBookmarked] = useState<boolean>(false);
+  const router = useRouter()
 
   const durationFormat = (duration: number | any) => {
     if (typeof duration !== "number") {
@@ -101,11 +103,11 @@ const BookPage = ({ params }: { params: { bookid: string } }) => {
               <div className="w-full bg-gray-300 h-px rounded-full my-4"></div>
 
               <div className="flex gap-4 mb-6">
-                <button className="rounded-lg bg-green py-4 px-10 text-black font-bold text-[16px] flex flex-row items-center justify-center gap-2 hover:brightness-90">
+                <button onClick={() => router.push("/player/" + book?.id)} className="rounded-lg bg-green py-4 px-10 text-black font-bold text-[16px] flex flex-row items-center justify-center gap-2 hover:brightness-90">
                   <PiBookOpenText color="black" size={24} />
                   Read
                 </button>
-                <button className="rounded-lg bg-green py-4 px-10 text-black font-bold text-[16px] flex flex-row items-center justify-center gap-2 hover:brightness-90">
+                <button onClick={() => router.push("/player/" + book?.id)} className="rounded-lg bg-green py-4 px-10 text-black font-bold text-[16px] flex flex-row items-center justify-center gap-2 hover:brightness-90">
                   <CiMicrophoneOn strokeWidth={0.5} color="black" size={24} />
                   Listen
                 </button>
@@ -132,8 +134,8 @@ const BookPage = ({ params }: { params: { bookid: string } }) => {
               </h1>
 
               <div className="flex flex-row gap-4 mb-4">
-                {book?.tags.map((tag: string) => (
-                  <div className="flex items-center justify-center text-[16px] font-semibold rounded-lg p-4 bg-[#87CEEB1f]">{tag}</div>
+                {book?.tags.map((tag: string, index) => (
+                  <div key={index} className="flex items-center justify-center text-[16px] font-semibold rounded-lg p-4 bg-[#87CEEB1f]">{tag}</div>
                 ))}
               </div>
               <div className="leading-relaxed mb-4">
