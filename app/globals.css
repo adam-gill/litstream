@@ -25,6 +25,14 @@ body {
   }
 }
 
+.btn-hover {
+  transition: all 300ms ease-in-out;
+}
+
+.btn-hover:hover {
+  filter: brightness(90%);
+}
+
 .skeleton-box {
   display: inline-block;
   position: relative;

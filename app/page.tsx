@@ -32,11 +32,11 @@ export default function Home() {
     dispatch(toggleModal());
   };
 
-  useEffect(() => {
-    if (!loading && !user) {
-      router.replace("/for-you")
-    }
-  }, [user, loading, router])
+  // useEffect(() => {
+  //   if (!loading && !user) {
+  //     router.replace("/for-you")
+  //   }
+  // }, [user, loading, router])
 
   
 

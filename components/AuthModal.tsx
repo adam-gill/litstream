@@ -6,11 +6,16 @@ import { setModal, toggleModal } from "@/lib/features/modal/modalSlice";
 import { BsX } from "react-icons/bs";
 import { MdAccountCircle } from "react-icons/md";
 import Image from "next/image";
-import { login, signInWithGoogle, signUp } from "@/lib/auth";
-import { useRouter } from "next/navigation";
+import { usePathname, useRouter } from "next/navigation";
 import { setUser } from "@/lib/features/auth/authSlice";
 import { IoMdEye, IoMdEyeOff } from "react-icons/io";
-import { GoogleAuthProvider, signInWithEmailAndPassword, signInWithRedirect } from "firebase/auth";
+import {
+  createUserWithEmailAndPassword,
+  GoogleAuthProvider,
+  signInWithEmailAndPassword,
+  signInWithPopup,
+  signInWithRedirect,
+} from "firebase/auth";
 import { auth } from "@/firebase";
 
 interface Props {
@@ -19,7 +24,7 @@ interface Props {
 
 const AuthModal: React.FC<Props> = ({ showModal }) => {
   const modal = useSelector((state: RootState) => state.showModal.showModal);
-  const user = useSelector((state: RootState) => state.auth.user)
+  const user = useSelector((state: RootState) => state.auth.user);
   const dispatch = useDispatch();
   const [email, setEmail] = useState<string>("");
   const [password, setPassword] = useState<string>("");
@@ -27,6 +32,7 @@ const AuthModal: React.FC<Props> = ({ showModal }) => {
   const [isLogin, setIsLogin] = useState<boolean>(true);
   const [showPassword, setShowPassword] = useState<boolean>(false);
   const router = useRouter();
+  const pathname = usePathname();
 
   const delay = (ms: number) => new Promise((res) => setTimeout(res, ms));
 
@@ -44,9 +50,11 @@ const AuthModal: React.FC<Props> = ({ showModal }) => {
           guestLogin.password
         );
 
-        dispatch(setUser(userCredential.user))
+        dispatch(setUser(userCredential.user));
         dispatch(toggleModal());
-        router.push("/for-you");
+        if (pathname === "/") {
+          router.push("/for-you");
+        }
       } catch (error) {
         console.log(error);
       }
@@ -58,7 +66,7 @@ const AuthModal: React.FC<Props> = ({ showModal }) => {
           password
         );
 
-        dispatch(setUser(userCredential.user))
+        dispatch(setUser(userCredential.user));
         dispatch(toggleModal());
         router.push("/for-you");
       } catch (error) {
@@ -66,27 +74,44 @@ const AuthModal: React.FC<Props> = ({ showModal }) => {
       }
     } else if (method === "google") {
       const provider = new GoogleAuthProvider();
-        try {
-          const userCredential = await signInWithRedirect(auth, provider);
-          console.log(userCredential);
+      try {
+        const userCredential = await signInWithPopup(auth, provider);
+        console.log(userCredential);
 
-          dispatch(toggleModal());
-          router.push("/for-you")
-        } catch (error) {
-          return error;
-        }
-      };
+        dispatch(toggleModal());
+        router.push("/for-you");
+      } catch (error) {
+        return error;
+      }
+    }
   };
+
+  const handleSignUp = async (method: string) => {
+    if (method === "emailAndPassword") {
+      try {
+        const userCredential = await createUserWithEmailAndPassword(
+          auth,
+          email,
+          password
+        );
+        router.push("/for-you");
+      } catch (error) {
+        console.log("sign up error", error);
+        throw error;
+      }
+    }
+  };
+
 
   useEffect(() => {
     const unsubscribe = auth.onAuthStateChanged((user) => {
       if (user) {
-        console.log(user) 
-        dispatch(setUser(user))
+        console.log(user);
+        dispatch(setUser(user));
       }
-    })
-    return () => unsubscribe()
-  }, [])
+    });
+    return () => unsubscribe();
+  }, []);
 
   return (
     <div
