@@ -7,7 +7,7 @@ import useAuth from "@/lib/useAuth";
 import { useDispatch } from "react-redux";
 
 const Settings = () => {
-  const { user, loading } = useAuth();
+  const { user, loadingAuth } = useAuth();
   const dispatch = useDispatch();
   const isPremium = true;
 
@@ -15,7 +15,7 @@ const Settings = () => {
     <>
       <SearchBar />
       <PageContainer>
-        {loading ? (
+        {loadingAuth ? (
           <>
           <div className="flex flex-col">
             <Skeleton className="w-[200px] h-[80px] rounded-lg" />

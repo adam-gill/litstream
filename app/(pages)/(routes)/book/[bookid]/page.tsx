@@ -11,14 +11,36 @@ import { HiOutlineLightBulb } from "react-icons/hi";
 import { PiBookOpenText } from "react-icons/pi";
 import { IoBookmark, IoBookmarkOutline } from "react-icons/io5";
 import { useRouter } from "next/navigation";
+import useAuth from "@/lib/useAuth";
+import {
+  arrayRemove,
+  arrayUnion,
+  doc,
+  getDoc,
+  setDoc,
+  updateDoc,
+} from "firebase/firestore";
+import { auth, db } from "@/firebase";
+import { onAuthStateChanged } from "firebase/auth";
+import { setUser } from "@/lib/features/auth/authSlice";
+import { useDispatch } from "react-redux";
+
+interface bookmarkData {
+  bookIds: string[]
+}
+
 
 const BookPage = ({ params }: { params: { bookid: string } }) => {
   const [loading, setLoading] = useState<boolean>(true);
   const [book, setBook] = useState<Book>();
   const audioRef = useRef<HTMLAudioElement>(null);
   const [duration, setDuration] = useState<number | undefined>(undefined);
-  const [bookmarked, setBookmarked] = useState<boolean>(false);
-  const router = useRouter()
+  const [bookmarked, setBookmarked] = useState<boolean>();
+  const [bookmarks, setBookmarks] = useState<string[]>();
+  const router = useRouter();
+  const { user, loadingAuth } = useAuth();
+  const dispatch = useDispatch()
+
 
   const durationFormat = (duration: number | any) => {
     if (typeof duration !== "number") {
@@ -42,6 +64,40 @@ const BookPage = ({ params }: { params: { bookid: string } }) => {
     setDuration(audioRef.current?.duration);
   };
 
+  const addBookDoc = async (email: string, bookId: string) => {
+    try {
+      const docRef = doc(db, "saved", email);
+      const docSnap = await getDoc(docRef);
+
+      if (!docSnap.exists()) {
+        await setDoc(doc(db, "saved", email), { bookIds: [bookId] });
+      } else {
+        await updateDoc(docRef, {
+          bookIds: arrayUnion(bookId),
+        });
+      }
+    } catch (error) {
+      console.log("add book error", error);
+      throw new Error();
+    }
+  };
+
+  const removeBookDoc = async (email: string, bookId: string) => {
+    try {
+      const docRef = doc(db, "saved", email);
+      const docSnap = await getDoc(docRef);
+
+      if (docSnap.exists()) {
+        await updateDoc(docRef, {
+          bookIds: arrayRemove(bookId),
+        });
+      }
+    } catch (error) {
+      console.log("error removing book", error);
+      throw new Error();
+    }
+  };
+
   useEffect(() => {
     const getBook = async () => {
       setLoading(true);
@@ -57,6 +113,32 @@ const BookPage = ({ params }: { params: { bookid: string } }) => {
     };
     getBook();
   }, []);
+
+  
+
+  useEffect(() => {
+    const unsubscribe = onAuthStateChanged(auth, async (user) => {
+      dispatch(setUser(user))
+      if (user) {
+        try {
+          const docSnap = await getDoc(doc(db, "saved", user.email!))
+          const data: string[]  = docSnap.data()?.bookIds
+          console.log(data)
+
+          if (data.length !== 0) {
+            setBookmarks(data)
+            if (data.includes(params.bookid)) setBookmarked(true)
+            console.log(data)
+          } 
+        } catch (error) {
+          console.log("bookmark fetch error", error)
+        }
+      }
+
+    });
+    return () => unsubscribe();
+  }, []);
+
 
   return (
     <>
@@ -103,17 +185,31 @@ const BookPage = ({ params }: { params: { bookid: string } }) => {
               <div className="w-full bg-gray-300 h-px rounded-full my-4"></div>
 
               <div className="flex gap-4 mb-6">
-                <button onClick={() => router.push("/player/" + book?.id)} className="rounded-lg bg-green py-4 px-10 text-black font-bold text-[16px] flex flex-row items-center justify-center gap-2 hover:brightness-90">
+                <button
+                  onClick={() => router.push("/player/" + book?.id)}
+                  className="rounded-lg bg-green py-4 px-10 text-black font-bold text-[16px] flex flex-row items-center justify-center gap-2 hover:brightness-90"
+                >
                   <PiBookOpenText color="black" size={24} />
                   Read
                 </button>
-                <button onClick={() => router.push("/player/" + book?.id)} className="rounded-lg bg-green py-4 px-10 text-black font-bold text-[16px] flex flex-row items-center justify-center gap-2 hover:brightness-90">
+                <button
+                  onClick={() => router.push("/player/" + book?.id)}
+                  className="rounded-lg bg-green py-4 px-10 text-black font-bold text-[16px] flex flex-row items-center justify-center gap-2 hover:brightness-90"
+                >
                   <CiMicrophoneOn strokeWidth={0.5} color="black" size={24} />
                   Listen
                 </button>
               </div>
               <h1
-                onClick={() => setBookmarked(!bookmarked)}
+                onClick={() => {
+                  if (bookmarked) {
+                    setBookmarked(false)
+                    removeBookDoc(user?.email!, params.bookid);
+                  } else {
+                    setBookmarked(true)
+                    addBookDoc(user?.email!, params.bookid);
+                  }
+                }}
                 className="text-[18px] flex flex-row items-center gap-2 cursor-pointer mb-[40px] hover:font-bold transition-all duration-500"
               >
                 {bookmarked ? (
@@ -135,7 +231,12 @@ const BookPage = ({ params }: { params: { bookid: string } }) => {
 
               <div className="flex flex-row gap-4 mb-4">
                 {book?.tags.map((tag: string, index) => (
-                  <div key={index} className="flex items-center justify-center text-[16px] font-semibold rounded-lg p-4 bg-[#87CEEB1f]">{tag}</div>
+                  <div
+                    key={index}
+                    className="flex items-center justify-center text-[16px] font-semibold rounded-lg p-4 bg-[#87CEEB1f]"
+                  >
+                    {tag}
+                  </div>
                 ))}
               </div>
               <div className="leading-relaxed mb-4">
@@ -159,3 +260,4 @@ const BookPage = ({ params }: { params: { bookid: string } }) => {
 };
 
 export default BookPage;
+

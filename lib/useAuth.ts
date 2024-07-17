@@ -8,19 +8,19 @@ import { RootState } from './store';
 
 const useAuth = () => {
   const user = useSelector((state: RootState) => state.auth.user)
-  const [loading, setLoading] = useState(true);
+  const [loadingAuth, setLoadingAuth] = useState(true);
   const dispatch = useDispatch();
 
   useEffect(() => {
     const unsubscribe = onAuthStateChanged(auth, (user) => {
       dispatch(setUser(user))
-      setLoading(false);
+      setLoadingAuth(false);
     });
 
     return () => unsubscribe();
   }, []);
 
-  return { user, loading };
+  return { user, loadingAuth };
 };
 
 export default useAuth;

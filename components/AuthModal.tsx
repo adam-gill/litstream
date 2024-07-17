@@ -76,7 +76,6 @@ const AuthModal: React.FC<Props> = ({ showModal }) => {
       const provider = new GoogleAuthProvider();
       try {
         const userCredential = await signInWithPopup(auth, provider);
-        console.log(userCredential);
 
         dispatch(toggleModal());
         router.push("/for-you");
