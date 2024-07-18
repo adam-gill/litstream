@@ -24,6 +24,8 @@ import { auth, db } from "@/firebase";
 import { onAuthStateChanged } from "firebase/auth";
 import { setUser } from "@/lib/features/auth/authSlice";
 import { useDispatch } from "react-redux";
+import Image from "next/image";
+import { toggleModal } from "@/lib/features/modal/modalSlice";
 
 interface bookmarkData {
   bookIds: string[]
@@ -114,20 +116,19 @@ const BookPage = ({ params }: { params: { bookid: string } }) => {
 
     
     getBook();
-  }, []);
+  }, [params.bookid]);
 
   
 
   useEffect(() => {
     const unsubscribe = onAuthStateChanged(auth, async (user) => {
-      dispatch(setUser(user))
       if (user) {
         try {
           const docSnap = await getDoc(doc(db, "saved", user.email!))
           const data: Book[]  = docSnap.data()?.savedBooks
           console.log(data)
 
-          if (data.length !== 0) {
+          if (data && data.length !== 0) {
             const bookMarkFound = data.filter((book) => book.id === params.bookid)
             if (bookMarkFound.length === 1) setBookmarked(true)
             console.log(data)
@@ -139,7 +140,7 @@ const BookPage = ({ params }: { params: { bookid: string } }) => {
 
     });
     return () => unsubscribe();
-  }, []);
+  }, [dispatch, params.bookid]);
 
 
   return (
@@ -204,12 +205,16 @@ const BookPage = ({ params }: { params: { bookid: string } }) => {
               </div>
               <h1
                 onClick={() => {
-                  if (bookmarked) {
-                    setBookmarked(false)
-                    removeBookDoc(user?.email!);
+                  if (user) {
+                    if (bookmarked) {
+                      setBookmarked(false)
+                       if (user) removeBookDoc(user?.email!);
+                    } else {
+                      setBookmarked(true)
+                      addBookDoc(user?.email!, params.bookid);
+                    }
                   } else {
-                    setBookmarked(true)
-                    addBookDoc(user?.email!, params.bookid);
+                    dispatch(toggleModal())
                   }
                 }}
                 className="text-[18px] flex flex-row items-center gap-2 cursor-pointer mb-[40px] hover:font-bold transition-all duration-500"
@@ -252,7 +257,7 @@ const BookPage = ({ params }: { params: { bookid: string } }) => {
               </div>
             </div>
             <div className="flex w-[300px] h-[300px] aspect-square">
-              <img src={book?.imageLink} className="object-cover" />
+              {book?.imageLink && <Image src={book.imageLink} className="object-cover" width={1000} height={1000} alt="book image" priority />}
             </div>
           </div>
         )}

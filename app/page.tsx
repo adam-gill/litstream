@@ -25,7 +25,6 @@ export default function Home() {
   const modal = useSelector((state: RootState) => state.showModal.showModal);
   const user = useSelector((state: RootState) => state.auth.user)
   const dispatch = useDispatch();
-  const { loading } = useAuth()
   const router = useRouter()
 
   const openModal = () => {
@@ -237,7 +236,7 @@ export default function Home() {
                     </div>
                   </div>
                   <div className="review__body">
-                    This app has been a <b>game-changer</b> for me! It's saved
+                    This app has been a <b>game-changer</b> for me! It&#39;s saved
                     me so much time and effort in reading and comprehending
                     books. Highly recommend it to all book lovers.
                   </div>
@@ -252,7 +251,7 @@ export default function Home() {
                   <div className="review__body">
                     I love this app! It provides
                     <b>concise and accurate summaries</b> of books in a way that
-                    is easy to understand. It's also very user-friendly and
+                    is easy to understand. It&#39;s also very user-friendly and
                     intuitive.
                   </div>
                 </div>
@@ -278,10 +277,10 @@ export default function Home() {
                     </div>
                   </div>
                   <div className="review__body">
-                    If you're a busy person who
-                    <b> loves reading but doesn't have the time</b> to read
+                    If you&#39;re a busy person who
+                    <b> loves reading but doesn&#39;t have the time</b> to read
                     every book in full, this app is for you! The summaries are
-                    thorough and provide a great overview of the book's content.
+                    thorough and provide a great overview of the book&#39;s content.
                   </div>
                 </div>
               </div>

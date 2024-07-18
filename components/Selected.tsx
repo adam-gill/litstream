@@ -2,6 +2,7 @@
 
 import { Book } from "@/types/types";
 import axios from "axios";
+import Image from "next/image";
 import Link from "next/link";
 
 interface BookList {
@@ -54,7 +55,7 @@ const Selected = async () => {
           <div className="w-full mmd:flex mmd:w-3/5">
             <div className="flex flex-row">
               <Link href={"/book/" + book.id}>
-                <img src={book.imageLink} style={{ maxWidth: "140px" }} />
+                <Image src={book.imageLink} style={{ maxWidth: "140px" }} alt="book image" width={140} height={140} />
               </Link>
               <div className="flex flex-col">
                 <h1 className="font-bold">{book.title}</h1>

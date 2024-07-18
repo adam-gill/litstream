@@ -24,7 +24,7 @@ const initialState: sidebarState = {
   sidebar: {
     open: true,
     player: false,
-    tabSelected: 0,
+    tabSelected: 69,
     fontSize: "base"
   }
 }

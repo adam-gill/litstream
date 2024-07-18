@@ -30,7 +30,7 @@ const PlayerPage = ({ params }: { params: { bookid: string } }) => {
       }
     };
     getBook();
-  }, []);
+  }, [params.bookid]);
 
   return (
     <>

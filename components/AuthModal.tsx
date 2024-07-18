@@ -36,70 +36,66 @@ const AuthModal: React.FC<Props> = ({ showModal }) => {
 
   const delay = (ms: number) => new Promise((res) => setTimeout(res, ms));
 
-  const guestLogin = {
-    email: "adamgill20529@gmail.com",
-    password: "Rigby345$",
-  };
+  const handleGuestLogin = async () => {
+    try {
+      const userCredential = await signInWithEmailAndPassword(
+        auth,
+        "guest123@gmail.com",
+        "guest123"
+      );
 
-  const handleLogin = async (method: string) => {
-    if (method === "guest") {
-      try {
-        const userCredential = await signInWithEmailAndPassword(
-          auth,
-          guestLogin.email,
-          guestLogin.password
-        );
-
-        dispatch(setUser(userCredential.user));
-        dispatch(toggleModal());
-        if (pathname === "/") {
-          router.push("/for-you");
-        }
-      } catch (error) {
-        console.log(error);
-      }
-    } else if (method === "emailAndPassword") {
-      try {
-        const userCredential = await signInWithEmailAndPassword(
-          auth,
-          email,
-          password
-        );
-
-        dispatch(setUser(userCredential.user));
-        dispatch(toggleModal());
+      dispatch(toggleModal());
+      if (pathname === "/") {
         router.push("/for-you");
-      } catch (error) {
-        console.log(error);
       }
-    } else if (method === "google") {
-      const provider = new GoogleAuthProvider();
-      try {
-        const userCredential = await signInWithPopup(auth, provider);
-        dispatch(toggleModal());
-        router.push("/for-you");
-      } catch (error) {
-        return error;
-      }
+    } catch (error) {
+      console.log(error);
     }
   };
 
-  const handleSignUp = async (method: string) => {
-    if (method === "emailAndPassword") {
-      try {
-        const userCredential = await createUserWithEmailAndPassword(
-          auth,
-          email,
-          password
-        );
+  const handleEmailPasswordLogin = async () => {
+    try {
+      const userCredential = await signInWithEmailAndPassword(
+        auth,
+        email,
+        password
+      );
+
+      dispatch(toggleModal());
+      if (pathname === "/") {
         router.push("/for-you");
-      } catch (error) {
-        console.log("sign up error", error);
-        throw error;
       }
+    } catch (error) {
+      console.log(error);
     }
   };
 
+  const handleGoogleSignIn = async () => {
+    const provider = new GoogleAuthProvider();
+    try {
+      const userCredential = await signInWithPopup(auth, provider);
+      dispatch(toggleModal());
+      if (pathname === "/") {
+        router.push("/for-you");
+      }
+    } catch (error) {
+      return error;
+    }
+  };
+
+  const handleEmailPasswordSignUp = async () => {
+    try {
+      const userCredential = await createUserWithEmailAndPassword(
+        auth,
+        email,
+        password
+      );
+      router.push("/for-you");
+    } catch (error) {
+      console.log("sign up error", error);
+      throw error;
+    }
+  };
 
   useEffect(() => {
     const unsubscribe = auth.onAuthStateChanged((user) => {
@@ -108,7 +104,7 @@ const AuthModal: React.FC<Props> = ({ showModal }) => {
       }
     });
     return () => unsubscribe();
-  }, []);
+  }, [dispatch]);
 
   return (
     <div
@@ -129,7 +125,7 @@ const AuthModal: React.FC<Props> = ({ showModal }) => {
             }
           >
             <MdAccountCircle className="flex absolute left-1" size={32} />
-            <button onClick={() => handleLogin("guest")} className="text-xl">
+            <button onClick={() => handleGuestLogin()} className="text-xl">
               Continue as a Guest
             </button>
           </div>
@@ -153,7 +149,7 @@ const AuthModal: React.FC<Props> = ({ showModal }) => {
                 alt="google"
               />
             </div>
-            <h1 className="text-xl" onClick={() => handleLogin("google")}>
+            <h1 className="text-xl" onClick={() => handleGoogleSignIn()}>
               {isLogin ? "Login with Google" : "Sign Up with Google"}
             </h1>
           </div>
@@ -195,7 +191,11 @@ const AuthModal: React.FC<Props> = ({ showModal }) => {
               </div>
             </div>
             <button
-              onClick={() => handleLogin("emailAndPassword")}
+              onClick={
+                isLogin
+                  ? () => handleEmailPasswordLogin()
+                  : () => handleEmailPasswordSignUp()
+              }
               className="w-full relative rounded-lg flex text-xl items-center justify-center bg-[#2bd97c] text-black h-[40px] cursor-pointer hover:brightness-90 my-4"
             >
               {isLogin ? "Login" : "Sign Up"}
@@ -216,7 +216,6 @@ const AuthModal: React.FC<Props> = ({ showModal }) => {
           className="absolute right-1 top-1 hover:text-[#2db97c]"
           size={36}
           onClick={() => {
-            document.body.classList.remove("overflow-hidden");
             dispatch(toggleModal());
           }}
         />

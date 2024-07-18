@@ -7,6 +7,7 @@ import Link from "next/link";
 import { setSidebar } from "@/lib/features/sidebar/sidebarSlice";
 import { useDispatch, useSelector } from "react-redux";
 import { RootState } from "@/lib/store";
+import Image from "next/image";
 
 interface Props {
   book: Book;
@@ -52,7 +53,7 @@ const BookCard: React.FC<Props> = ({ book }) => {
             ref={audioRef}
             onLoadedMetadata={onLoadedMetadata}
           ></audio>
-          <img src={book.imageLink} />
+          <Image width={200} height={200} src={book.imageLink} alt="book image" priority />
           <h1 className="font-bold text-md my-2">{book.title}</h1>
           <div className="text-sm flex flex-col w-full">
             <p className="mb-2">{book.author}</p>

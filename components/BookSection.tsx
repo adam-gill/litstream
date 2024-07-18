@@ -24,9 +24,12 @@ const Recommended: React.FC<Props> = ({
   const [loading, setLoading] = useState<boolean>(true);
   const delay = (ms: number) => new Promise((res) => setTimeout(res, ms));
 
-  if (dataUrl) {
-    useEffect(() => {
-      const getRecommended = async () => {
+  useEffect(() => {
+    const getRecommended = async () => {
+      if (!dataUrl) {
+        if (bookList) setBooks(bookList);
+        setLoading(false);
+      } else {
         try {
           const res = await axios.get(dataUrl);
           setBooks(res.data);
@@ -34,16 +37,12 @@ const Recommended: React.FC<Props> = ({
         } catch (error) {
           throw new Error("error fetching recommended books");
         }
-        return books;
-      };
-      getRecommended();
-    }, [books, loading]);
-  } else {
-    useEffect(() => {
-      if (bookList) setBooks(bookList);
-      if (!dataUrl) setLoading(false);
-    }, []);
-  }
+      }
+
+      return books;
+    };
+    getRecommended();
+  }, []);
 
   return (
     <>
@@ -62,9 +61,11 @@ const Recommended: React.FC<Props> = ({
           <h1 className="font-bold text-2xl mb-4">{title}</h1>
           <p className="mb-4">{subtitle}</p>
           <div className="w-full flex flex-row flex-wrap gap-2">
-            {books.slice(0, 5).map((book) => (
-              <BookCard key={book.id} book={book} />
-            ))}
+            {dataUrl
+              ? books
+                  .slice(0, 5)
+                  .map((book) => <BookCard key={book.id} book={book} />)
+              : books.map((book) => <BookCard key={book.id} book={book} />)}
           </div>
         </>
       )}

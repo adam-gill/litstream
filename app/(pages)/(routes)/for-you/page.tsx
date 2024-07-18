@@ -1,9 +1,23 @@
+// "use client"
+
+
 import PageContainer from "@/components/PageContainer";
 import SearchBar from "@/components/SearchBar";
 import Selected from "@/components/Selected";
 import BookSection from "@/components/BookSection"
+import { useEffect } from "react";
+import { setSidebar } from "@/lib/features/sidebar/sidebarSlice";
+import { RootState } from "@/lib/store";
+import { useDispatch, useSelector } from "react-redux";
 
-const ForYou = async () => {
+const ForYou = () => {
+  // const sidebar = useSelector((state: RootState) => state.sidebar.sidebar);
+  // const dispatch = useDispatch()
+
+  // useEffect(() => {
+  //   dispatch(setSidebar({ ...sidebar, tabSelected: 0 }));
+  // }, [dispatch])
+
 
   return (
     <>

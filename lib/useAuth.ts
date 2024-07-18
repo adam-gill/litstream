@@ -7,14 +7,14 @@ import { useDispatch, useSelector } from 'react-redux';
 import { RootState } from './store';
 
 const useAuth = () => {
-  const user = useSelector((state: RootState) => state.auth.user)
   const [loadingAuth, setLoadingAuth] = useState(true);
+  const [user, setUser] = useState<User | null>()
   const dispatch = useDispatch();
 
   useEffect(() => {
     const unsubscribe = onAuthStateChanged(auth, (user) => {
-      dispatch(setUser(user))
       setLoadingAuth(false);
+      setUser(user)
     });
 
     return () => unsubscribe();

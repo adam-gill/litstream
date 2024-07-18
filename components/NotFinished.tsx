@@ -1,3 +1,5 @@
+import Image from "next/image";
+
 const NotFinished = () => {
   return (
     <>
@@ -6,11 +8,12 @@ const NotFinished = () => {
           <h1 className="pb-8 text-2xl">
             {"Sorry. This page hasn't been implemented yet."}
           </h1>
-          <img
+          <Image
             src={"/assets/undraw_working.svg"}
             alt="not finished"
             width={700}
             height={400}
+            priority
           />
         </div>
       </div>

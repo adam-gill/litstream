@@ -23,6 +23,7 @@ import { onAuthStateChanged, signOut, User } from "firebase/auth";
 import { auth } from "@/firebase";
 import { toggleModal } from "@/lib/features/modal/modalSlice";
 import useAuth from "@/lib/useAuth";
+import { usePathname } from "next/navigation";
 
 type Props = {
   open: boolean;
@@ -33,16 +34,20 @@ const fjalla_one = Fjalla_One({ subsets: ["latin"], weight: ["400"] });
 
 const SideBar: React.FC<Props> = ({ open, player }) => {
   const [selectedItem, setSelectedItem] = useState<number>(0);
-  const user = useSelector((state: RootState) => state.auth.user)
   const sidebar = useSelector((state: RootState) => state.sidebar.sidebar);
-  const { loading } = useAuth()
   const dispatch = useDispatch();
-  const defaultSidebar = {
-    player: true,
-    open: true,
-    fontSize: "base",
-    tabSelected: 0,
-  };
+  const { user, loadingAuth } = useAuth();
+  const pathname: string = usePathname()
+
+
+  const paths: any = {
+    "/for-you" : 0,
+    "/my-library" : 1,
+    "/highlights" : 2,
+    "/search" : 3,
+    "/settings" : 4,
+    "/help": 5,
+  }
 
   const logout = async () => {
     try {
@@ -53,9 +58,13 @@ const SideBar: React.FC<Props> = ({ open, player }) => {
     }
   };
 
+  useEffect(() => {
+    dispatch(setSidebar({ ...sidebar, tabSelected: paths[pathname] }));
+  }, [])
+
   return (
     <>
-      <div className="flex fixed flex-col w-[225px] bg-[#87CEEB10] h-full">
+      <div className="flex fixed flex-col w-[225px] bg-[#87CEEB10] h-full overflow-y-auto">
         <Link href={"/"}>
           <h1
             className={fjalla_one.className}
@@ -238,15 +247,27 @@ const SideBar: React.FC<Props> = ({ open, player }) => {
                 selected={selectedItem}
               />
             </Link>
-            <div className="cursor-pointer" onClick={() => {
-              user ? logout() : dispatch(toggleModal())
-              }}>
-              <SideBarItem
-                id={6}
-                icon={<MdLogout size={28} stroke="1px" />}
-                title={user ? "Logout" : "Login"}
-                selected={selectedItem}
-              />
+            <div
+              className="cursor-pointer"
+              onClick={() => {
+                user ? logout() : dispatch(toggleModal());
+              }}
+            >
+              {loadingAuth ? (
+                <SideBarItem
+                  id={6}
+                  icon={<MdLogout size={28} stroke="1px" />}
+                  title={"Loading ..."}
+                  selected={selectedItem}
+                />
+              ) : (
+                <SideBarItem
+                  id={6}
+                  icon={<MdLogout size={28} stroke="1px" />}
+                  title={user ? "Logout" : "Login"}
+                  selected={selectedItem}
+                />
+              )}
             </div>
           </div>
         </div>

@@ -4,6 +4,7 @@ import SearchBar from "@/components/SearchBar";
 import Skeleton from "@/components/Skeleton";
 import { toggleModal } from "@/lib/features/modal/modalSlice";
 import useAuth from "@/lib/useAuth";
+import Image from "next/image";
 import { useDispatch } from "react-redux";
 
 const Settings = () => {
@@ -51,9 +52,13 @@ const Settings = () => {
             ) : (
               <>
                 <div className="flex items-center justify-center flex-col">
-                  <img
+                  <Image
                     src="/assets/undraw_login.svg"
                     className="w-[300px] h-[290px]"
+                    width={1000} 
+                    height={1000}
+                    alt="sign in image"
+                    priority
                   />
                   <h1 className="text-2xl font-bold mt-4">
                     Sign in to to view account details
