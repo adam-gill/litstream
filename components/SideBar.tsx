@@ -60,7 +60,7 @@ const SideBar: React.FC<Props> = ({ open, player }) => {
 
   useEffect(() => {
     dispatch(setSidebar({ ...sidebar, tabSelected: paths[pathname] }));
-  }, [])
+  }, [pathname])
 
   return (
     <>
