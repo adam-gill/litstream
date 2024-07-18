@@ -36,7 +36,7 @@ const BookPage = ({ params }: { params: { bookid: string } }) => {
   const audioRef = useRef<HTMLAudioElement>(null);
   const [duration, setDuration] = useState<number | undefined>(undefined);
   const [bookmarked, setBookmarked] = useState<boolean>();
-  const [bookmarks, setBookmarks] = useState<string[]>();
+  // const [bookmarks, setBookmarks] = useState<Book[]>();
   const router = useRouter();
   const { user, loadingAuth } = useAuth();
   const dispatch = useDispatch()
@@ -70,10 +70,10 @@ const BookPage = ({ params }: { params: { bookid: string } }) => {
       const docSnap = await getDoc(docRef);
 
       if (!docSnap.exists()) {
-        await setDoc(doc(db, "saved", email), { bookIds: [bookId] });
+        await setDoc(doc(db, "saved", email), { savedBooks: [book] });
       } else {
         await updateDoc(docRef, {
-          bookIds: arrayUnion(bookId),
+          savedBooks: arrayUnion(book),
         });
       }
     } catch (error) {
@@ -82,14 +82,14 @@ const BookPage = ({ params }: { params: { bookid: string } }) => {
     }
   };
 
-  const removeBookDoc = async (email: string, bookId: string) => {
+  const removeBookDoc = async (email: string) => {
     try {
       const docRef = doc(db, "saved", email);
       const docSnap = await getDoc(docRef);
 
       if (docSnap.exists()) {
         await updateDoc(docRef, {
-          bookIds: arrayRemove(bookId),
+          savedBooks: arrayRemove(book),
         });
       }
     } catch (error) {
@@ -111,6 +111,8 @@ const BookPage = ({ params }: { params: { bookid: string } }) => {
         console.log(`error occurred fetching book ${params.bookid} data`);
       }
     };
+
+    
     getBook();
   }, []);
 
@@ -122,12 +124,12 @@ const BookPage = ({ params }: { params: { bookid: string } }) => {
       if (user) {
         try {
           const docSnap = await getDoc(doc(db, "saved", user.email!))
-          const data: string[]  = docSnap.data()?.bookIds
+          const data: Book[]  = docSnap.data()?.savedBooks
           console.log(data)
 
           if (data.length !== 0) {
-            setBookmarks(data)
-            if (data.includes(params.bookid)) setBookmarked(true)
+            const bookMarkFound = data.filter((book) => book.id === params.bookid)
+            if (bookMarkFound.length === 1) setBookmarked(true)
             console.log(data)
           } 
         } catch (error) {
@@ -204,7 +206,7 @@ const BookPage = ({ params }: { params: { bookid: string } }) => {
                 onClick={() => {
                   if (bookmarked) {
                     setBookmarked(false)
-                    removeBookDoc(user?.email!, params.bookid);
+                    removeBookDoc(user?.email!);
                   } else {
                     setBookmarked(true)
                     addBookDoc(user?.email!, params.bookid);

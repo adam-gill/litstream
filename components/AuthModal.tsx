@@ -76,7 +76,6 @@ const AuthModal: React.FC<Props> = ({ showModal }) => {
       const provider = new GoogleAuthProvider();
       try {
         const userCredential = await signInWithPopup(auth, provider);
-
         dispatch(toggleModal());
         router.push("/for-you");
       } catch (error) {
@@ -105,7 +104,6 @@ const AuthModal: React.FC<Props> = ({ showModal }) => {
   useEffect(() => {
     const unsubscribe = auth.onAuthStateChanged((user) => {
       if (user) {
-        console.log(user);
         dispatch(setUser(user));
       }
     });

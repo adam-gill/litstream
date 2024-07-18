@@ -47,7 +47,7 @@ const Recommended: React.FC<Props> = ({
 
   return (
     <>
-      {loading ? (
+      {loading && dataUrl ? (
         <>
           <Skeleton className="w-[70%] h-[50px] rounded-lg mb-2" />
           <Skeleton className="w-[40%] h-[30px] rounded-lg" />
@@ -61,7 +61,7 @@ const Recommended: React.FC<Props> = ({
         <>
           <h1 className="font-bold text-2xl mb-4">{title}</h1>
           <p className="mb-4">{subtitle}</p>
-          <div className="w-full flex flex-row flex-wrap justify-around">
+          <div className="w-full flex flex-row flex-wrap gap-2">
             {books.slice(0, 5).map((book) => (
               <BookCard key={book.id} book={book} />
             ))}
