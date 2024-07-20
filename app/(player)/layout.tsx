@@ -1,3 +1,4 @@
+import SearchBar from "@/components/SearchBar";
 import SideBar from "@/components/SideBar";
 
 export default function RootLayout({
@@ -7,7 +8,11 @@ export default function RootLayout({
 }>) {
   return (
     <>
-      <SideBar open={true} player={true} />
+      <div className="flex flex-col">
+        <SideBar open={true} player={true} />
+        <SearchBar />
+      </div>
+
       <div>{children}</div>
     </>
   );

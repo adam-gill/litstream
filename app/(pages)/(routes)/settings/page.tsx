@@ -14,7 +14,6 @@ const Settings = () => {
 
   return (
     <>
-      <SearchBar />
       <PageContainer>
         {loadingAuth ? (
           <>

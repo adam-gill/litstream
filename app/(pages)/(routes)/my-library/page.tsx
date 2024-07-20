@@ -33,26 +33,25 @@ import Image from "next/image";
 
 const MyLibrary = () => {
   const { user, loadingAuth } = useAuth();
-  // const [email, setEmail] = useState<string>()
-  // const [bookId, setBookId] = useState<string>()
-  const email = "adamgill20529@gmail.com";
-  const bookIdHC = "293823982392399";
   const dispatch = useDispatch();
   const sidebar = useSelector((state: RootState) => state.sidebar.sidebar);
-  const [books, setBooks] = useState<Book[]>();
   const [loading, setLoading] = useState<boolean>(true);
   const [bookmarks, setBookmarks] = useState<Book[]>([]);
+  const [finished, setFinished] = useState<Book[]>([])
 
   useEffect(() => {
     dispatch(setSidebar({ ...sidebar, tabSelected: 1 }));
     const unsubscribe = onAuthStateChanged(auth, async (user) => {
       setLoading(true);
       dispatch(setUser(user));
-      if (user) {
+      if (!!user && !!user.email) {
         try {
-          const docSnap = await getDoc(doc(db, "saved", user.email!));
-          const data: Book[] = docSnap.data()?.savedBooks;
-          setBookmarks(data);
+          const savedSnap = await getDoc(doc(db, "saved", user.email));
+          const savedData: Book[] = savedSnap.data()?.savedBooks;
+          const finishedSnap = await getDoc(doc(db, "finished", user.email));
+          const finishedData: Book[] = finishedSnap.data()?.finishedBooks;
+          setBookmarks(savedData);
+          setFinished(finishedData);
           setLoading(false);
         } catch (error) {
           console.log("bookmark fetch error", error);
@@ -67,10 +66,16 @@ const MyLibrary = () => {
 
   return (
     <>
-      <SearchBar />
       <PageContainer>
         {loading ? (
           <>
+            <Skeleton className="w-[70%] h-[50px] rounded-lg mb-2" />
+            <Skeleton className="w-[40%] h-[30px] rounded-lg" />
+            <div className="w-full flex flex-row flex-wrap justify-around">
+              {new Array(5).fill(0).map((_, index) => (
+                <BookSkeleton key={index} />
+              ))}
+            </div>
             <Skeleton className="w-[70%] h-[50px] rounded-lg mb-2" />
             <Skeleton className="w-[40%] h-[30px] rounded-lg" />
             <div className="w-full flex flex-row flex-wrap justify-around">
@@ -88,7 +93,7 @@ const MyLibrary = () => {
                   subtitle={bookmarks ? bookmarks.length + " items" : "0 items"}
                   bookList={bookmarks}
                 />
-                <BookSection title="Finished Books" subtitle="0 items" />
+                <BookSection title="Finished Books" subtitle={finished ? finished.length + " items" : "0 items"} bookList={finished} />
               </>
             ) : (
               <>

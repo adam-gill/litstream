@@ -11,10 +11,12 @@ import { setUser } from "@/lib/features/auth/authSlice";
 import { IoMdEye, IoMdEyeOff } from "react-icons/io";
 import {
   createUserWithEmailAndPassword,
+  getRedirectResult,
   GoogleAuthProvider,
   signInWithEmailAndPassword,
   signInWithPopup,
   signInWithRedirect,
+  UserCredential,
 } from "firebase/auth";
 import { auth } from "@/firebase";
 
@@ -72,14 +74,22 @@ const AuthModal: React.FC<Props> = ({ showModal }) => {
 
   const handleGoogleSignIn = async () => {
     const provider = new GoogleAuthProvider();
-    try {
-      const userCredential = await signInWithRedirect(auth, provider);
-      dispatch(toggleModal());
-      if (pathname === "/") {
-        router.push("/for-you");
-      }
-    } catch (error) {
-      return error;
+    const userCredential = await signInWithRedirect(auth, provider);
+
+    getRedirectResult(auth)
+      .then((result: any) => {
+        const credential = GoogleAuthProvider.credentialFromResult(result);
+        console.log(credential)
+        console.log(result.user)
+      })
+      .catch((error) => {
+        console.log(error.message);
+      });
+    
+    dispatch(toggleModal());
+    console.log(pathname);
+    if (pathname === "/") {
+      router.push("/for-you");
     }
   };
 
@@ -90,6 +100,7 @@ const AuthModal: React.FC<Props> = ({ showModal }) => {
         email,
         password
       );
+      console.log(userCredential.user)
       router.push("/for-you");
     } catch (error) {
       console.log("sign up error", error);

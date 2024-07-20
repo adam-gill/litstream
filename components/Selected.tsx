@@ -61,7 +61,7 @@ const Selected = async () => {
                 <h1 className="font-bold">{book.title}</h1>
                 <p>{book.author}</p>
                 <div className="flex flex-row items-center pt-4">
-                  <Link href={"/book/" + book.id}>
+                  <Link href={"/player/" + book.id}>
                     <button className="w-[40px] h-[40px] bg-black rounded-full relative flex flex-row">
                       <svg
                         className="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2"

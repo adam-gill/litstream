@@ -8,7 +8,6 @@ import { IoMdMail } from "react-icons/io";
 const Help = () => {
   return (
     <>
-      <SearchBar />
       <PageContainer>
         <div className="flex items-center justify-between">
           <h1 className="text-4xl font-bold">Help & Support</h1>

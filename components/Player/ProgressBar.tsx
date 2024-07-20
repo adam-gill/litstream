@@ -2,15 +2,17 @@ import { useEffect, useState } from "react";
 
 interface Props {
   audioRef: React.RefObject<HTMLAudioElement>;
-  progressBarRef: React.RefObject<HTMLInputElement>
+  progressBarRef: React.RefObject<HTMLInputElement>;
+  timeProgress: number;
+  duration: number;
 }
 
-const ProgressBar: React.FC<Props> = ({ audioRef, progressBarRef }) => {
-  const [duration, setDuration] = useState<number | undefined>(undefined);
+const ProgressBar: React.FC<Props> = ({ audioRef, progressBarRef, timeProgress, duration }) => {
+  // const [duration, setDuration] = useState<number | undefined>(undefined);
 
   const durationFormat = (duration: number | any) => {
     if (isNaN(duration)) {
-      return "error";
+      return "00:00";
     } else {
       let min: string = "" + Math.floor(duration / 60);
       let sec: string = "" + Math.floor(duration % 60);
@@ -26,26 +28,33 @@ const ProgressBar: React.FC<Props> = ({ audioRef, progressBarRef }) => {
     }
   };
 
-  useEffect(() => {
-    const audioElement = audioRef.current;
-
-    if (audioElement) {
-      const onLoadedMetadata = () => {
-        setDuration(audioRef.current?.duration);
-      };
-      audioElement.addEventListener("loadedmetadata", onLoadedMetadata);
-      return () =>
-        audioElement?.removeEventListener("loadedmetadata", onLoadedMetadata);
+  const handleProgressChange = () => {
+    if (audioRef.current && progressBarRef.current) {
+      audioRef.current.currentTime = Number(progressBarRef.current.value);
     }
-  }, [audioRef]);
+  };
+
+  
+
+  
 
   return (
-    <div>
-      <span>00:00</span>
-      <div>
-      <input type="range" min={0} max={100} value={90} className="w-full bg-green h-1 rounded-full appearance-none outline-none max-w-[300px]" />
+    <div className="flex flex-row items-center justify-end gap-3 w-1/3 pr-8">
+      <span>{durationFormat(timeProgress)}</span>
+      <div className="flex w-full max-w-[300px] items-center justify-center">
+        <input
+          type="range"
+          ref={progressBarRef}
+          onChange={handleProgressChange}
+          defaultValue={0}
+          style={{
+            background: `linear-gradient(to right, rgb(43, 217, 124) ${timeProgress / duration * 100}%, rgb(109, 120, 125) ${timeProgress / duration * 100}%)`,
+          }}
+          className="audio h-1 w-full cursor-pointer appearance-none rounded-lg outline-none"
+        />
       </div>
-      {duration && <span>{durationFormat(duration)}</span>}
+      <span>{durationFormat(duration)}</span>
+      {/* {duration && <span>{durationFormat(duration)}</span>} */}
     </div>
   );
 };

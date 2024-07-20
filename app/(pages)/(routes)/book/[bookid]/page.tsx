@@ -151,7 +151,6 @@ const BookPage = ({ params }: { params: { bookid: string } }) => {
         ref={audioRef}
         onLoadedMetadata={onLoadedMetadata}
       ></audio>
-      <SearchBar />
       <PageContainer>
         {loading ? (
           <Skeleton className="w-[200px] h-[20px] rounded-lg" />
