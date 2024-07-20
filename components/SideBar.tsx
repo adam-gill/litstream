@@ -37,17 +37,16 @@ const SideBar: React.FC<Props> = ({ open, player }) => {
   const sidebar = useSelector((state: RootState) => state.sidebar.sidebar);
   const dispatch = useDispatch();
   const { user, loadingAuth } = useAuth();
-  const pathname: string = usePathname()
-
+  const pathname: string = usePathname();
 
   const paths: any = {
-    "/for-you" : 0,
-    "/my-library" : 1,
-    "/highlights" : 2,
-    "/search" : 3,
-    "/settings" : 4,
+    "/for-you": 0,
+    "/my-library": 1,
+    "/highlights": 2,
+    "/search": 3,
+    "/settings": 4,
     "/help": 5,
-  }
+  };
 
   const logout = async () => {
     try {
@@ -60,11 +59,16 @@ const SideBar: React.FC<Props> = ({ open, player }) => {
 
   useEffect(() => {
     dispatch(setSidebar({ ...sidebar, tabSelected: paths[pathname] }));
-  }, [pathname])
+  }, [pathname]);
 
   return (
     <>
-      <div className="flex fixed flex-col w-[225px] bg-[#87CEEB10] h-full overflow-y-auto">
+      <div
+        className={cn(
+          "flex fixed flex-col w-[225px] bg-[#87CEEB10] overflow-y-auto",
+          player ? "h-offset" : "h-full"
+        )}
+      >
         <Link href={"/"}>
           <h1
             className={fjalla_one.className}
@@ -80,12 +84,7 @@ const SideBar: React.FC<Props> = ({ open, player }) => {
             LitStream
           </h1>
         </Link>
-        <div
-          className={cn(
-            "flex flex-col justify-between h-full",
-            player ? "mb-[80px]" : ""
-          )}
-        >
+        <div className="flex flex-col justify-between h-full">
           <div className="flex flex-col">
             <Link
               href="/for-you"
@@ -271,11 +270,11 @@ const SideBar: React.FC<Props> = ({ open, player }) => {
             </div>
           </div>
         </div>
-        {player && (
+        {/* {player && (
           <div className="flex fixed w-full bg-[#042330] h-[80px] bottom-0 py-10">
             <div></div>
           </div>
-        )}
+        )} */}
       </div>
     </>
   );

@@ -8,7 +8,7 @@ export default function RootLayout({
   return (
     <>
       <SideBar open={true} player={true} />
-      <div className="ml-[225px]">{children}</div>
+      <div>{children}</div>
     </>
   );
 }
