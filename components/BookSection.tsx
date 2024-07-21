@@ -6,6 +6,7 @@ import { useEffect, useState } from "react";
 import BookCard from "./BookCard";
 import Skeleton from "./Skeleton";
 import BookSkeleton from "./BookSkeleton";
+import { cn } from "@/lib/utils";
 
 interface Props {
   title: string;
@@ -23,6 +24,8 @@ const Recommended: React.FC<Props> = ({
   const [books, setBooks] = useState<Book[]>([]);
   const [loading, setLoading] = useState<boolean>(true);
   const delay = (ms: number) => new Promise((res) => setTimeout(res, ms));
+
+  
 
   useEffect(() => {
     const getRecommended = async () => {
@@ -58,15 +61,15 @@ const Recommended: React.FC<Props> = ({
         </>
       ) : (
         <>
-          <h1 className="font-bold text-2xl mb-4">{title}</h1>
-          <p className="mb-4">{subtitle}</p>
-          <div className="w-full flex flex-row flex-wrap gap-2">
-            {dataUrl
-              ? books
-                  .slice(0, 5)
-                  .map((book) => <BookCard key={book.id} book={book} />)
-              : books.map((book) => <BookCard key={book.id} book={book} />)}
-          </div>
+            <h1 className="font-bold text-2xl mb-4">{title}</h1>
+            <p className="mb-4">{subtitle}</p>
+            <div className="w-full flex flex-row flex-wrap gap-2">
+              {dataUrl
+                ? books
+                    .slice(0, 5)
+                    .map((book) => <BookCard key={book.id} book={book} />)
+                : books.map((book) => <BookCard key={book.id} book={book} />)}
+            </div>
         </>
       )}
     </>

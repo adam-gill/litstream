@@ -44,8 +44,8 @@ const BookCard: React.FC<Props> = ({ book }) => {
 
   return (
     <>
-      <Link href={"/book/" + book.id} className="hover:bg-[#87CEEB1f] relative" onClick={() => dispatch(setSidebar({...sidebar, tabSelected: -1}))}>
-        <div key={book.id} className="w-full max-w-[180px] pt-8 px-3 pb-3">
+      <Link href={"/book/" + book.id} className="flex hover:bg-[#87CEEB1f] relative" onClick={() => dispatch(setSidebar({...sidebar, tabSelected: -1}))}>
+        <div key={book.id} className="w-full max-w-[200px] pt-8 px-3 pb-3">
           {book.subscriptionRequired && <div className="absolute bg-blue-600 rounded-xl top-0 right-0 text-xs px-[6px] py-[2px] text-white">Premium</div>}
           <audio
             className="hidden"

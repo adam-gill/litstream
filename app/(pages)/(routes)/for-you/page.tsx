@@ -9,17 +9,19 @@ const ForYou = () => {
   return (
     <>
       <PageContainer>
-        <Selected />
-        <BookSection
-          title="Recommended For You"
-          subtitle="We think you'll like these"
-          dataUrl="https://us-central1-summaristt.cloudfunctions.net/getBooks?status=recommended"
-        />
-        <BookSection
-          title="Suggested Books"
-          subtitle="Browse related books"
-          dataUrl="https://us-central1-summaristt.cloudfunctions.net/getBooks?status=suggested"
-        />
+        <div className="w-full flex flex-col">
+          <Selected />
+          <BookSection
+            title="Recommended For You"
+            subtitle="We think you'll like these"
+            dataUrl="https://us-central1-summaristt.cloudfunctions.net/getBooks?status=recommended"
+          />
+          <BookSection
+            title="Suggested Books"
+            subtitle="Browse related books"
+            dataUrl="https://us-central1-summaristt.cloudfunctions.net/getBooks?status=suggested"
+          />
+        </div>
       </PageContainer>
     </>
   );

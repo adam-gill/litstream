@@ -67,6 +67,9 @@ const MyLibrary = () => {
   return (
     <>
       <PageContainer>
+        <div className="w-full flex flex-col">
+
+        
         {loading ? (
           <>
             <Skeleton className="w-[70%] h-[50px] rounded-lg mb-2" />
@@ -120,6 +123,7 @@ const MyLibrary = () => {
             )}
           </>
         )}
+        </div>
       </PageContainer>
     </>
   );

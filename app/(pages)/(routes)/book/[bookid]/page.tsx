@@ -157,7 +157,7 @@ const BookPage = ({ params }: { params: { bookid: string } }) => {
         ) : (
           <div className="flex gap-6 justify-between">
             <div className="flex flex-col max-w-[65%]">
-              <h1 className="text-[32px] font-bold">{book?.title}</h1>
+              <h1 className="text-[32px] font-bold">{book?.subscriptionRequired ? book?.title + " (Premium)" : book?.title}</h1>
               <p className="text-[16px] font-bold">{book?.author}</p>
               <p className="text-[20px]">{book?.subTitle}</p>
               <div className="w-full bg-gray-300 h-px rounded-full my-4"></div>

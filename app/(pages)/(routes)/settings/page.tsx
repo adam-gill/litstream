@@ -5,12 +5,14 @@ import Skeleton from "@/components/Skeleton";
 import { toggleModal } from "@/lib/features/modal/modalSlice";
 import useAuth from "@/lib/useAuth";
 import Image from "next/image";
+import { useRouter } from "next/navigation";
 import { useDispatch } from "react-redux";
 
 const Settings = () => {
   const { user, loadingAuth } = useAuth();
   const dispatch = useDispatch();
   const isPremium = true;
+  const router = useRouter()
 
   return (
     <>
@@ -29,7 +31,7 @@ const Settings = () => {
             <div className="flex items-center justify-between">
               <h1 className="text-4xl font-bold">Settings</h1>
               {isPremium && user && (
-                <button className="py-2 px-4 bg-green text-black rounded-full text-2xl btn-hover">
+                <button onClick={() => router.push("/upgrade")} className="py-2 px-4 bg-green text-black rounded-full text-2xl btn-hover">
                   Upgrade
                 </button>
               )}

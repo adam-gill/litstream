@@ -55,7 +55,7 @@ const Selected = async () => {
           <div className="w-full mmd:flex mmd:w-3/5">
             <div className="flex flex-row">
               <Link href={"/book/" + book.id}>
-                <Image src={book.imageLink} style={{ maxWidth: "140px" }} alt="book image" width={140} height={140} />
+                <Image src={book.imageLink} style={{ maxWidth: "140px" }} alt="book image" width={140} height={140} priority />
               </Link>
               <div className="flex flex-col">
                 <h1 className="font-bold">{book.title}</h1>

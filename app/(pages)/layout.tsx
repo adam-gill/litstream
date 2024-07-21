@@ -16,11 +16,11 @@ export default function RootLayout({
   return (
     <>
       <AuthModal showModal={modal} />
-      <div className="flex flex-col">
-        <SideBar open={true} player={false} />
+      <SideBar open={true} player={false} />
+      <div className="ml-[225px]">
         <SearchBar />
+        {children}
       </div>
-      <div className="ml-[225px] mt-[84px]">{children}</div>
     </>
   );
 }
