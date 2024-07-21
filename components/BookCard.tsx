@@ -60,11 +60,11 @@ const BookCard: React.FC<Props> = ({ book }) => {
             <p className="mb-2">{book.subTitle}</p>
             <div className="flex flex-row items-center">
               <div className="flex flex-row">
-                <CiClock2 size={18} />
+                <CiClock2 size={18} strokeWidth={0.5} />
                 <p className="ml-1">{durationFormat(duration)}</p>
               </div>
               <div className="flex flex-row ml-1">
-                <CiStar size={18} />
+                <CiStar size={18} strokeWidth={0.5} />
                 <p className="ml-1">{book.averageRating}</p>
               </div>
             </div>
