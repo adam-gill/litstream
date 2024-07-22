@@ -27,16 +27,16 @@ body {
 
 .btn-hover {
   cursor: pointer;
-  transition: all 300ms ease-in-out;
+  transition: all 400ms ease;
 }
 
 .btn-hover:hover {
-  filter: brightness(75%);
-  transform: scale(1.05);
+  filter: brightness(90%);
+  transform: scale(1.02);
 }
 
 .btn-hover:active {
-  transform: scale(0.8);
+  transform: scale(0.9);
 }
 
 .skeleton-box {
@@ -114,4 +114,23 @@ body {
 .upgrade-shape {
   border-bottom-left-radius: 280px;
   border-bottom-right-radius: 280px;
+}
+
+.accordion-arrow {
+  transition: all 300ms ease;
+}
+
+.accordion-arrow-flip {
+  transform: rotate(180deg);
+}
+
+.shove {
+  position: relative;
+  height: 0;
+  overflow: hidden;
+  transition: all 400ms ease;
+}
+
+.shove.show {
+  height: auto;
 }

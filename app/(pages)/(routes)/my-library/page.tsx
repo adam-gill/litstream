@@ -62,7 +62,7 @@ const MyLibrary = () => {
       }
     });
     return () => unsubscribe();
-  }, [dispatch]);
+  }, []);
 
   return (
     <>

@@ -94,7 +94,7 @@ const SearchBar = () => {
                         />
                       ))
                     ) : (
-                      <div className="fcc font-bold">No books Found for "{query}"</div>
+                      <div className="fcc font-bold">No books Found for &quot;{query}&quot;</div>
                     )}
                   </>
                 ) : (

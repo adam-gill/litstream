@@ -45,7 +45,7 @@ const Recommended: React.FC<Props> = ({
       return books;
     };
     getRecommended();
-  }, []);
+  }, [bookList, books, dataUrl]);
 
   return (
     <>

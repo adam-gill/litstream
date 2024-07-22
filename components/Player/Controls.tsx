@@ -46,7 +46,7 @@ const Controls: React.FC<Props> = ({ audioRef, progressBarRef, duration, setTime
         audioRef.current?.pause();
       }
     }
-  }, [isPlaying, audioRef]);
+  }, [isPlaying, audioRef, repeat]);
 
   return (
     <div className="flex flex-row items-center justify-center gap-4 mx-4 w-1/3">
