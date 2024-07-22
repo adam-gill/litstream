@@ -8,12 +8,11 @@ export default function RootLayout({
 }>) {
   return (
     <>
-      <div className="flex flex-col">
-        <SideBar open={true} player={true} />
+      <SideBar open={true} player={true} />
+      <div className="ml-[225px]">
         <SearchBar />
       </div>
-
-      <div>{children}</div>
+      {children}
     </>
   );
 }
