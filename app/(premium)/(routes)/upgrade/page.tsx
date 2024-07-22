@@ -166,7 +166,7 @@ const Upgrade = () => {
         </p>
       </div>
 
-      <div className="mb-10 max-w-5xl">
+      <div className="mb-10 max-w-5xl fcc flex-col mx-auto">
         {accordionData.map((accordion, index) => (
           <Accordion
             key={index}
