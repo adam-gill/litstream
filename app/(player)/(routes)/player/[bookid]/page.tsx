@@ -38,7 +38,7 @@ const PlayerPage = ({ params }: { params: { bookid: string } }) => {
 
   return (
     <>
-      <div className="ml-[225px] mt-[84px]">
+      <div className="ml-[225px]">
         <PageContainer>
           {loading ? (
             <h1>loading...</h1>

@@ -155,14 +155,12 @@ const Upgrade = () => {
         </div>
       </div>
 
-      <div className="sticky bottom-0 fcc flex-col bg-white">
-        <button className="bg-green text-bold py-4 px-16 rounded-lg mt-4 btn-hover text-LSblue font-semibold">
-          {"Start you free 7-day trial"}
+      <div className="sticky bottom-0 flex flex-col items-center bg-white">
+        <button className="bg-green font-bold py-4 px-16 rounded-lg mt-4 hover:bg-green-700 text-LSblue">
+          Start your free 7-day trial
         </button>
         <p className="text-sm text-gray-500 mt-4 pb-4">
-          {
-            "Cancel your trial at any time before it ends and you won't be charged"
-          }
+          Cancel your trial at any time before it ends and you won't be charged
         </p>
       </div>
 
@@ -175,6 +173,8 @@ const Upgrade = () => {
           />
         ))}
       </div>
+
+      
 
       <section className="flex" id="footer">
         <div className="row">
