@@ -3,7 +3,7 @@ import Image from "next/image";
 const NotFinished = () => {
   return (
     <>
-      <div className="w-full h-screen relative items-center justify-center">
+      <div className="w-full h-full relative items-center justify-center mt-6">
         <div className="flex h-full flex-col items-center justify-center">
           <h1 className="pb-8 text-2xl">
             {"Sorry. This page hasn't been implemented yet."}

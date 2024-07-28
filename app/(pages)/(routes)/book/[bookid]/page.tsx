@@ -28,9 +28,8 @@ import Image from "next/image";
 import { toggleModal } from "@/lib/features/modal/modalSlice";
 
 interface bookmarkData {
-  bookIds: string[]
+  bookIds: string[];
 }
-
 
 const BookPage = ({ params }: { params: { bookid: string } }) => {
   const [loading, setLoading] = useState<boolean>(true);
@@ -41,8 +40,7 @@ const BookPage = ({ params }: { params: { bookid: string } }) => {
   // const [bookmarks, setBookmarks] = useState<Book[]>();
   const router = useRouter();
   const { user, loadingAuth } = useAuth();
-  const dispatch = useDispatch()
-
+  const dispatch = useDispatch();
 
   const durationFormat = (duration: number | any) => {
     if (typeof duration !== "number") {
@@ -114,34 +112,31 @@ const BookPage = ({ params }: { params: { bookid: string } }) => {
       }
     };
 
-    
     getBook();
   }, [params.bookid]);
-
-  
 
   useEffect(() => {
     const unsubscribe = onAuthStateChanged(auth, async (user) => {
       if (user) {
         try {
-          const docSnap = await getDoc(doc(db, "saved", user.email!))
-          const data: Book[]  = docSnap.data()?.savedBooks
-          console.log(data)
+          const docSnap = await getDoc(doc(db, "saved", user.email!));
+          const data: Book[] = docSnap.data()?.savedBooks;
+          console.log(data);
 
           if (data && data.length !== 0) {
-            const bookMarkFound = data.filter((book) => book.id === params.bookid)
-            if (bookMarkFound.length === 1) setBookmarked(true)
-            console.log(data)
-          } 
+            const bookMarkFound = data.filter(
+              (book) => book.id === params.bookid
+            );
+            if (bookMarkFound.length === 1) setBookmarked(true);
+            console.log(data);
+          }
         } catch (error) {
-          console.log("bookmark fetch error", error)
+          console.log("bookmark fetch error", error);
         }
       }
-
     });
     return () => unsubscribe();
   }, [dispatch, params.bookid]);
-
 
   return (
     <>
@@ -153,11 +148,40 @@ const BookPage = ({ params }: { params: { bookid: string } }) => {
       ></audio>
       <PageContainer>
         {loading ? (
-          <Skeleton className="w-[200px] h-[20px] rounded-lg" />
+          <>
+            <div className="flex flex-row justify-between">
+              <div className="flex flex-col gap-3">
+                <Skeleton className="w-[256px] h-[40px] rounded-lg" />
+                <Skeleton className="w-[96px] h-[25px] rounded-lg" />
+                <Skeleton className="w-[340px] h-[32px] rounded-lg" />
+                <Skeleton className="w-[280px] h-[32px] rounded-lg" />
+                <Skeleton className="w-[200px] h-[32px] rounded-lg" />
+                <Skeleton className="w-[280px] h-[32px] rounded-lg" />
+              </div>
+
+              <Skeleton className="w-[300px] h-[300px] rounded-lg" />
+            </div>
+            <div className="flex flex-col gap-[32px] mt-10">
+              <Skeleton className="w-full h-[32px] rounded-lg" />
+              <Skeleton className="w-full h-[32px] rounded-lg" />
+              <Skeleton className="w-full h-[32px] rounded-lg" />
+              <Skeleton className="w-full h-[32px] rounded-lg" />
+              <Skeleton className="w-full h-[32px] rounded-lg" />
+              <Skeleton className="w-full h-[32px] rounded-lg" />
+              <Skeleton className="w-full h-[32px] rounded-lg" />
+              <Skeleton className="w-full h-[32px] rounded-lg" />
+              <Skeleton className="w-full h-[32px] rounded-lg" />
+              <Skeleton className="w-full h-[32px] rounded-lg" />
+            </div>
+          </>
         ) : (
           <div className="flex gap-6 justify-between">
             <div className="flex flex-col max-w-[65%]">
-              <h1 className="text-[32px] font-bold">{book?.subscriptionRequired ? book?.title + " (Premium)" : book?.title}</h1>
+              <h1 className="text-[32px] font-bold">
+                {book?.subscriptionRequired
+                  ? book?.title + " (Premium)"
+                  : book?.title}
+              </h1>
               <p className="text-[16px] font-bold">{book?.author}</p>
               <p className="text-[20px]">{book?.subTitle}</p>
               <div className="w-full bg-gray-300 h-px rounded-full my-4"></div>
@@ -206,14 +230,14 @@ const BookPage = ({ params }: { params: { bookid: string } }) => {
                 onClick={() => {
                   if (user) {
                     if (bookmarked) {
-                      setBookmarked(false)
-                       if (user) removeBookDoc(user?.email!);
+                      setBookmarked(false);
+                      if (user) removeBookDoc(user?.email!);
                     } else {
-                      setBookmarked(true)
+                      setBookmarked(true);
                       addBookDoc(user?.email!, params.bookid);
                     }
                   } else {
-                    dispatch(toggleModal())
+                    dispatch(toggleModal());
                   }
                 }}
                 className="text-[18px] flex flex-row items-center gap-2 cursor-pointer mb-[40px] hover:font-bold transition-all duration-500"
@@ -256,7 +280,16 @@ const BookPage = ({ params }: { params: { bookid: string } }) => {
               </div>
             </div>
             <div className="flex w-[300px] h-[300px] aspect-square">
-              {book?.imageLink && <Image src={book.imageLink} className="object-cover" width={1000} height={1000} alt="book image" priority />}
+              {book?.imageLink && (
+                <Image
+                  src={book.imageLink}
+                  className="object-cover"
+                  width={1000}
+                  height={1000}
+                  alt="book image"
+                  priority
+                />
+              )}
             </div>
           </div>
         )}
@@ -266,4 +299,3 @@ const BookPage = ({ params }: { params: { bookid: string } }) => {
 };
 
 export default BookPage;
-

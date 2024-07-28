@@ -16,7 +16,6 @@ import {
   signInWithEmailAndPassword,
   signInWithPopup,
   signInWithRedirect,
-  UserCredential,
 } from "firebase/auth";
 import { auth } from "@/firebase";
 
@@ -38,7 +37,8 @@ const AuthModal: React.FC<Props> = ({ showModal }) => {
 
   const delay = (ms: number) => new Promise((res) => setTimeout(res, ms));
 
-  const handleGuestLogin = async () => {
+  const handleGuestLogin = async (e: React.FormEvent) => {
+    e.preventDefault();
     try {
       const userCredential = await signInWithEmailAndPassword(
         auth,
@@ -48,14 +48,21 @@ const AuthModal: React.FC<Props> = ({ showModal }) => {
 
       dispatch(toggleModal());
       if (pathname === "/") {
-        router.push("/for-you");
+        setEmail("");
+        setPassword("");
+        return router.push("/for-you");
+      } else {
+        setEmail("");
+        setPassword("");
+        return router.refresh();
       }
     } catch (error) {
       console.log(error);
     }
   };
 
-  const handleEmailPasswordLogin = async () => {
+  const handleEmailPasswordLogin = async (e: React.FormEvent) => {
+    e.preventDefault();
     try {
       const userCredential = await signInWithEmailAndPassword(
         auth,
@@ -65,57 +72,70 @@ const AuthModal: React.FC<Props> = ({ showModal }) => {
 
       dispatch(toggleModal());
       if (pathname === "/") {
-        router.push("/for-you");
+        setEmail("");
+        setPassword("");
+        return router.push("/for-you");
+      } else {
+        setEmail("");
+        setPassword("");
+        return router.refresh();
       }
     } catch (error) {
       console.log(error);
     }
   };
 
-  const handleGoogleSignIn = async () => {
+  const handleGoogleSignIn = async (e: React.FormEvent) => {
+    e.preventDefault();
     const provider = new GoogleAuthProvider();
-    const userCredential = await signInWithRedirect(auth, provider);
+    const userCredential = await signInWithPopup(auth, provider).catch(
+      (error) => console.log("google sign in error", error)
+    );
 
     getRedirectResult(auth)
       .then((result: any) => {
         const credential = GoogleAuthProvider.credentialFromResult(result);
-        console.log(credential)
-        console.log(result.user)
+        console.log(credential);
+        console.log(result.user);
       })
       .catch((error) => {
         console.log(error.message);
       });
-    
+
     dispatch(toggleModal());
     console.log(pathname);
     if (pathname === "/") {
-      router.push("/for-you");
+      return router.push("/for-you");
+    } else {
+      return router.refresh();
     }
   };
 
-  const handleEmailPasswordSignUp = async () => {
+  const handleEmailPasswordSignUp = async (e: React.FormEvent) => {
+    e.preventDefault();
+    console.log("email sign up");
     try {
       const userCredential = await createUserWithEmailAndPassword(
         auth,
         email,
         password
       );
-      console.log(userCredential.user)
-      router.push("/for-you");
+
+      dispatch(toggleModal());
+      if (pathname === "/") {
+        setEmail("");
+        setPassword("");
+        return router.push("/for-you");
+      } else {
+        setEmail("");
+        setPassword("");
+        return router.refresh();
+      }
     } catch (error) {
       console.log("sign up error", error);
       throw error;
     }
   };
-
-  useEffect(() => {
-    const unsubscribe = auth.onAuthStateChanged((user) => {
-      if (user) {
-        dispatch(setUser(user));
-      }
-    });
-    return () => unsubscribe();
-  }, [dispatch]);
 
   return (
     <div
@@ -136,7 +156,7 @@ const AuthModal: React.FC<Props> = ({ showModal }) => {
             }
           >
             <MdAccountCircle className="flex absolute left-1" size={32} />
-            <button onClick={() => handleGuestLogin()} className="text-xl">
+            <button onClick={(e) => handleGuestLogin(e)} className="text-xl">
               Continue as a Guest
             </button>
           </div>
@@ -160,7 +180,7 @@ const AuthModal: React.FC<Props> = ({ showModal }) => {
                 alt="google"
               />
             </div>
-            <h1 className="text-xl" onClick={() => handleGoogleSignIn()}>
+            <h1 className="text-xl" onClick={(e) => handleGoogleSignIn(e)}>
               {isLogin ? "Login with Google" : "Sign Up with Google"}
             </h1>
           </div>
@@ -180,6 +200,7 @@ const AuthModal: React.FC<Props> = ({ showModal }) => {
               ></input>
               <div className="relative">
                 <input
+                  key={showPassword ? "text" : "password"}
                   value={password}
                   onChange={(e) => setPassword(e.target.value)}
                   type={showPassword ? "text" : "password"}
@@ -204,8 +225,8 @@ const AuthModal: React.FC<Props> = ({ showModal }) => {
             <button
               onClick={
                 isLogin
-                  ? () => handleEmailPasswordLogin()
-                  : () => handleEmailPasswordSignUp()
+                  ? (e) => handleEmailPasswordLogin(e)
+                  : (e) => handleEmailPasswordSignUp(e)
               }
               className="w-full relative rounded-lg flex text-xl items-center justify-center bg-[#2bd97c] text-black h-[40px] cursor-pointer hover:brightness-90 my-4"
             >
@@ -213,7 +234,7 @@ const AuthModal: React.FC<Props> = ({ showModal }) => {
             </button>
           </form>
         </div>
-        <div className="w-full flex items-center justify-center py-2 cursor-pointer hover:text-blue-500">
+        <div className="w-full flex items-center justify-center py-2 cursor-not-allowed hover:text-blue-500">
           Forgot Password?
         </div>
         <div

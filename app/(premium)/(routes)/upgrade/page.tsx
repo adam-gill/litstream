@@ -160,7 +160,7 @@ const Upgrade = () => {
           Start your free 7-day trial
         </button>
         <p className="text-sm text-gray-500 mt-4 pb-4">
-          Cancel your trial at any time before it ends and you won't be charged
+          {"Cancel your trial at any time before it ends and you won't be charged"}
         </p>
       </div>
 
