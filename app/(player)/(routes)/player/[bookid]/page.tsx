@@ -41,7 +41,16 @@ const PlayerPage = ({ params }: { params: { bookid: string } }) => {
       <div className="ml-[225px]">
         <PageContainer>
           {loading ? (
-            <h1>loading...</h1>
+            <>
+              <Skeleton className="w-[300px] h-[40px] rounded-lg mb-8" />
+              <div className="flex flex-col gap-8">
+                <Skeleton className="w-full h-[80px] rounded-lg" />
+                <Skeleton className="w-full h-[80px] rounded-lg" />
+                <Skeleton className="w-full h-[80px] rounded-lg" />
+                <Skeleton className="w-full h-[80px] rounded-lg" />
+                <Skeleton className="w-full h-[80px] rounded-lg" />
+              </div>
+            </>
           ) : (
             <>
               <h1 className="text-2xl font-bold">{book?.title}</h1>
@@ -88,7 +97,7 @@ const PlayerPage = ({ params }: { params: { bookid: string } }) => {
             />
           </div>
           <div className="flex w-1/3 items-center justify-end pr-8">
-            <Skeleton className="w-full max-w-[300px] h-[15px] rounded-full"/>
+            <Skeleton className="w-full max-w-[300px] h-[15px] rounded-full" />
           </div>
         </div>
       ) : (

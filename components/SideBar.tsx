@@ -58,8 +58,8 @@ const SideBar: React.FC<Props> = ({ open, player }) => {
   };
 
   useEffect(() => {
-    dispatch(setSidebar({ ...sidebar, tabSelected: paths[pathname] }));
-  }, [pathname]);
+    dispatch(setSidebar({ ...sidebar, tabSelected: -1 }));
+  }, []);
 
   return (
     <>
@@ -89,7 +89,7 @@ const SideBar: React.FC<Props> = ({ open, player }) => {
             <Link
               href="/for-you"
               onClick={() =>
-                dispatch(setSidebar({ ...sidebar, tabSelected: 0 }))
+                setSelectedItem(0)
               }
             >
               <SideBarItem
@@ -102,7 +102,7 @@ const SideBar: React.FC<Props> = ({ open, player }) => {
             <Link
               href="/my-library"
               onClick={() =>
-                dispatch(setSidebar({ ...sidebar, tabSelected: 1 }))
+                setSelectedItem(1)
               }
             >
               <SideBarItem
@@ -115,7 +115,7 @@ const SideBar: React.FC<Props> = ({ open, player }) => {
             <Link
               href="/highlights"
               onClick={() =>
-                dispatch(setSidebar({ ...sidebar, tabSelected: 2 }))
+                setSelectedItem(2)
               }
             >
               <SideBarItem
@@ -128,7 +128,7 @@ const SideBar: React.FC<Props> = ({ open, player }) => {
             <Link
               href="/search"
               onClick={() =>
-                dispatch(setSidebar({ ...sidebar, tabSelected: 3 }))
+                setSelectedItem(3)
               }
             >
               <SideBarItem
@@ -223,7 +223,7 @@ const SideBar: React.FC<Props> = ({ open, player }) => {
             <Link
               href="/settings"
               onClick={() =>
-                dispatch(setSidebar({ ...sidebar, tabSelected: 4 }))
+                setSelectedItem(4)
               }
             >
               <SideBarItem
@@ -236,7 +236,7 @@ const SideBar: React.FC<Props> = ({ open, player }) => {
             <Link
               href="/help"
               onClick={() =>
-                dispatch(setSidebar({ ...sidebar, tabSelected: 5 }))
+                setSelectedItem(5)
               }
             >
               <SideBarItem

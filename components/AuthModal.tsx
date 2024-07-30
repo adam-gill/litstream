@@ -18,6 +18,7 @@ import {
   signInWithRedirect,
 } from "firebase/auth";
 import { auth } from "@/firebase";
+import TailSpin from "react-loading-icons/dist/esm/components/tail-spin";
 
 interface Props {
   showModal: boolean;
@@ -29,6 +30,7 @@ const AuthModal: React.FC<Props> = ({ showModal }) => {
   const dispatch = useDispatch();
   const [email, setEmail] = useState<string>("");
   const [password, setPassword] = useState<string>("");
+  const [loading, setLoading] = useState<boolean>(false);
   const [error, setError] = useState<any>("");
   const [isLogin, setIsLogin] = useState<boolean>(true);
   const [showPassword, setShowPassword] = useState<boolean>(false);
@@ -38,6 +40,7 @@ const AuthModal: React.FC<Props> = ({ showModal }) => {
   const delay = (ms: number) => new Promise((res) => setTimeout(res, ms));
 
   const handleGuestLogin = async (e: React.FormEvent) => {
+    setLoading(true);
     e.preventDefault();
     try {
       const userCredential = await signInWithEmailAndPassword(
@@ -47,6 +50,7 @@ const AuthModal: React.FC<Props> = ({ showModal }) => {
       );
 
       dispatch(toggleModal());
+      setLoading(false);
       if (pathname === "/") {
         setEmail("");
         setPassword("");
@@ -62,6 +66,7 @@ const AuthModal: React.FC<Props> = ({ showModal }) => {
   };
 
   const handleEmailPasswordLogin = async (e: React.FormEvent) => {
+    setLoading(true);
     e.preventDefault();
     try {
       const userCredential = await signInWithEmailAndPassword(
@@ -71,6 +76,8 @@ const AuthModal: React.FC<Props> = ({ showModal }) => {
       );
 
       dispatch(toggleModal());
+      setLoading(false);
+
       if (pathname === "/") {
         setEmail("");
         setPassword("");
@@ -86,6 +93,8 @@ const AuthModal: React.FC<Props> = ({ showModal }) => {
   };
 
   const handleGoogleSignIn = async (e: React.FormEvent) => {
+    setLoading(true);
+
     e.preventDefault();
     const provider = new GoogleAuthProvider();
     const userCredential = await signInWithPopup(auth, provider).catch(
@@ -103,7 +112,8 @@ const AuthModal: React.FC<Props> = ({ showModal }) => {
       });
 
     dispatch(toggleModal());
-    console.log(pathname);
+    setLoading(false);
+
     if (pathname === "/") {
       return router.push("/for-you");
     } else {
@@ -112,6 +122,8 @@ const AuthModal: React.FC<Props> = ({ showModal }) => {
   };
 
   const handleEmailPasswordSignUp = async (e: React.FormEvent) => {
+    setLoading(true);
+
     e.preventDefault();
     console.log("email sign up");
     try {
@@ -122,6 +134,7 @@ const AuthModal: React.FC<Props> = ({ showModal }) => {
       );
 
       dispatch(toggleModal());
+      setLoading(true);
       if (pathname === "/") {
         setEmail("");
         setPassword("");
@@ -230,7 +243,9 @@ const AuthModal: React.FC<Props> = ({ showModal }) => {
               }
               className="w-full relative rounded-lg flex text-xl items-center justify-center bg-[#2bd97c] text-black h-[40px] cursor-pointer hover:brightness-90 my-4"
             >
-              {isLogin ? "Login" : "Sign Up"}
+              {loading ? <TailSpin stroke="#000" width={28} height={28} speed={2}/> : (
+                isLogin ? "Login" : "Sign Up"
+              )}
             </button>
           </form>
         </div>

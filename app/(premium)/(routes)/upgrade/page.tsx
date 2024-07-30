@@ -43,6 +43,8 @@ const Upgrade = () => {
     },
   ];
 
+  // const handleSubscribe
+
   return (
     <>
       <div className="flex relative flex-col items-center justify-center bg-[#032b41] w-full pt-[48px] upgrade-shape">
@@ -157,7 +159,7 @@ const Upgrade = () => {
 
       <div className="sticky bottom-0 flex flex-col items-center bg-white">
         <button className="bg-green font-bold py-4 px-16 rounded-lg mt-4 hover:bg-green-700 text-LSblue">
-          Start your free 7-day trial
+          {yearly ? "Start your free 7-day trial" : "Subscribe now"}
         </button>
         <p className="text-sm text-gray-500 mt-4 pb-4">
           {"Cancel your trial at any time before it ends and you won't be charged"}
