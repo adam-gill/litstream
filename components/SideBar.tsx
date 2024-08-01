@@ -58,8 +58,13 @@ const SideBar: React.FC<Props> = ({ open, player }) => {
   };
 
   useEffect(() => {
-    dispatch(setSidebar({ ...sidebar, tabSelected: -1 }));
-  }, []);
+    setSelectedItem(paths[pathname])
+  }, [])
+
+  useEffect(() => {
+    setSelectedItem(paths[pathname])
+  }, [pathname]);
+
 
   return (
     <>

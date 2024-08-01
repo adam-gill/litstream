@@ -8,11 +8,16 @@ import { cn } from "@/lib/utils";
 import { FaArrowLeft } from "react-icons/fa";
 import { Router } from "next/router";
 import { useRouter } from "next/navigation";
-
+import { getCheckoutUrl } from "./stripePayment";
+import { app } from "@/firebase";
+import TailSpin from "react-loading-icons/dist/esm/components/tail-spin";
 
 const Upgrade = () => {
   const [yearly, setYearly] = useState<boolean>(true);
+  const [loading, setLoading] = useState<boolean>(false);
   const router = useRouter()
+
+  // const testCardNumber = "4242 4242 4242 4242"
 
   interface accordion {
     title: string;
@@ -43,7 +48,15 @@ const Upgrade = () => {
     },
   ];
 
-  // const handleSubscribe
+  const handleSubscribe = async () => {
+    setLoading(true)
+    const price = yearly ? "price_1PimdvDYvIXXpvnDbTz16cTE" : "price_1Pi3TwDYvIXXpvnDagPODrft"
+    const checkoutUrl = await getCheckoutUrl(app, price)
+    router.push(checkoutUrl)
+    setLoading(false)
+  }
+
+ 
 
   return (
     <>
@@ -61,6 +74,7 @@ const Upgrade = () => {
           height={340}
           className="bg-white upgrade-img w-[340px] h-[340px]"
           alt="upgrade picture"
+          priority
         />
       </div>
 
@@ -158,8 +172,9 @@ const Upgrade = () => {
       </div>
 
       <div className="sticky bottom-0 flex flex-col items-center bg-white">
-        <button className="bg-green font-bold py-4 px-16 rounded-lg mt-4 hover:bg-green-700 text-LSblue">
-          {yearly ? "Start your free 7-day trial" : "Subscribe now"}
+        <button onClick={() => handleSubscribe()} className="w-[300px] h-[60px] bg-green font-bold py-2 px-12 rounded-lg mt-4 hover:bg-green-700 text-LSblue flex items-center justify-center">
+          {loading && <TailSpin stroke="#000" width={28} height={28} speed={2} />}
+          {!loading && <div>{yearly ? "Start your free 7-day trial" : "Subscribe now"}</div>}
         </button>
         <p className="text-sm text-gray-500 mt-4 pb-4">
           {"Cancel your trial at any time before it ends and you won't be charged"}

@@ -6,32 +6,58 @@ import { toggleModal } from "@/lib/features/modal/modalSlice";
 import useAuth from "@/lib/useAuth";
 import Image from "next/image";
 import { useRouter } from "next/navigation";
+import { useEffect, useState } from "react";
 import { useDispatch } from "react-redux";
+import { getPremiumStatus } from "@/app/(premium)/(routes)/upgrade/getSubscriptionStatus";
+import { app } from "@/firebase";
 
 const Settings = () => {
   const { user, loadingAuth } = useAuth();
   const dispatch = useDispatch();
+  const [premium, setIsPremium] = useState<boolean | undefined>(undefined);
+  const [loading, setLoading] = useState<boolean>(true);
   const isPremium = true;
-  const router = useRouter()
+  const router = useRouter();
+
+  useEffect(() => {
+    const getStatus = async () => {
+      setLoading(true);
+      if (!!user) {
+        try {
+          const status = await getPremiumStatus(app, user?.uid);
+          setIsPremium(status);
+          console.log(status);
+          setLoading(false);
+        } catch (error) {
+          console.log(error);
+          setLoading(false);
+        }
+      }
+    };
+
+    getStatus();
+  }, [user]);
 
   return (
     <>
       <PageContainer>
         {loadingAuth ? (
           <>
-          <div className="flex flex-col">
-            <Skeleton className="w-[200px] h-[80px] rounded-lg" />
-            <Skeleton className="w-[600px] h-[60px] rounded-lg mt-8" />
-            <Skeleton className="w-[600px] h-[60px] rounded-lg mt-8" />
-            
-          </div>
+            <div className="flex flex-col">
+              <Skeleton className="w-[200px] h-[80px] rounded-lg" />
+              <Skeleton className="w-[600px] h-[60px] rounded-lg mt-8" />
+              <Skeleton className="w-[600px] h-[60px] rounded-lg mt-8" />
+            </div>
           </>
         ) : (
           <>
             <div className="flex items-center justify-between">
               <h1 className="text-4xl font-bold">Settings</h1>
               {isPremium && user && (
-                <button onClick={() => router.push("/upgrade")} className="py-2 px-4 bg-green text-black rounded-full text-2xl btn-hover">
+                <button
+                  onClick={() => router.push("/upgrade")}
+                  className="py-2 px-4 bg-green text-black rounded-full text-2xl btn-hover"
+                >
                   Upgrade
                 </button>
               )}
@@ -56,7 +82,7 @@ const Settings = () => {
                   <Image
                     src="/assets/undraw_login.svg"
                     className="w-[300px] h-[290px]"
-                    width={1000} 
+                    width={1000}
                     height={1000}
                     alt="sign in image"
                     priority
