@@ -91,32 +91,23 @@ const SideBar: React.FC<Props> = ({ open, player }) => {
         </Link>
         <div className="flex flex-col justify-between h-full">
           <div className="flex flex-col">
-            <Link
-              href="/for-you"
-              onClick={() =>
-                setSelectedItem(0)
-              }
-            >
+            
               <SideBarItem
                 id={0}
                 icon={<LiaHomeSolid size={28} />}
                 title={"For You"}
                 selected={selectedItem}
+                setSelectedItem={setSelectedItem}
+                path={"/for-you"}
               />
-            </Link>
-            <Link
-              href="/my-library"
-              onClick={() =>
-                setSelectedItem(1)
-              }
-            >
               <SideBarItem
                 id={1}
                 icon={<LiaBookmarkSolid size={28} />}
                 title={"My Library"}
                 selected={selectedItem}
+                setSelectedItem={setSelectedItem}
+                path={"/my-library"}
               />
-            </Link>
             <Link
               href="/highlights"
               onClick={() =>
@@ -128,6 +119,8 @@ const SideBar: React.FC<Props> = ({ open, player }) => {
                 icon={<LiaPenSolid size={28} />}
                 title={"Highlights"}
                 selected={selectedItem}
+                setSelectedItem={setSelectedItem}
+                path={"/highlights"}
               />
             </Link>
             <Link
@@ -141,6 +134,8 @@ const SideBar: React.FC<Props> = ({ open, player }) => {
                 icon={<LiaSearchSolid size={28} />}
                 title={"Search"}
                 selected={selectedItem}
+                setSelectedItem={setSelectedItem}
+                path={"/search"}
               />
             </Link>
 
@@ -236,6 +231,8 @@ const SideBar: React.FC<Props> = ({ open, player }) => {
                 icon={<LiaCogSolid size={28} />}
                 title={"Settings"}
                 selected={selectedItem}
+                setSelectedItem={setSelectedItem}
+                path={"/settings"}
               />
             </Link>
             <Link
@@ -249,6 +246,8 @@ const SideBar: React.FC<Props> = ({ open, player }) => {
                 icon={<LiaInfoCircleSolid size={28} />}
                 title={"Help & Support"}
                 selected={selectedItem}
+                setSelectedItem={setSelectedItem}
+                path={"/help"}
               />
             </Link>
             <div
@@ -263,6 +262,8 @@ const SideBar: React.FC<Props> = ({ open, player }) => {
                   icon={<MdLogout size={28} stroke="1px" />}
                   title={"Loading ..."}
                   selected={selectedItem}
+                  setSelectedItem={setSelectedItem}
+                  path={"none"}
                 />
               ) : (
                 <SideBarItem
@@ -270,16 +271,13 @@ const SideBar: React.FC<Props> = ({ open, player }) => {
                   icon={<MdLogout size={28} stroke="1px" />}
                   title={user ? "Logout" : "Login"}
                   selected={selectedItem}
+                  setSelectedItem={setSelectedItem}
+                  path={"none"}
                 />
               )}
             </div>
           </div>
         </div>
-        {/* {player && (
-          <div className="flex fixed w-full bg-[#042330] h-[80px] bottom-0 py-10">
-            <div></div>
-          </div>
-        )} */}
       </div>
     </>
   );
