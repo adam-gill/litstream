@@ -1,6 +1,7 @@
 "use client";
 import { FirebaseApp } from "firebase/app";
 import { getAuth } from "firebase/auth";
+import { auth, db } from "@/firebase";
 import {
   addDoc,
   collection,
@@ -13,11 +14,9 @@ export const getCheckoutUrl = async (
   app: FirebaseApp,
   priceId: string
 ): Promise<string> => {
-  const auth = getAuth(app);
   const userId = auth.currentUser?.uid;
   if (!userId) throw new Error("User is not authenticated");
 
-  const db = getFirestore(app);
   const checkoutSessionRef = collection(
     db,
     "customers",
