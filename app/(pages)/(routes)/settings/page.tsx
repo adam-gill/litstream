@@ -14,9 +14,8 @@ import { app } from "@/firebase";
 const Settings = () => {
   const { user, loadingAuth } = useAuth();
   const dispatch = useDispatch();
-  const [premium, setIsPremium] = useState<boolean | undefined>(undefined);
+  const [isPremium, setIsPremium] = useState<boolean | undefined>(undefined);
   const [loading, setLoading] = useState<boolean>(true);
-  const isPremium = true;
   const router = useRouter();
 
   useEffect(() => {
@@ -53,7 +52,7 @@ const Settings = () => {
           <>
             <div className="flex items-center justify-between">
               <h1 className="text-4xl font-bold">Settings</h1>
-              {isPremium && user && (
+              {user && !isPremium && (
                 <button
                   onClick={() => router.push("/upgrade")}
                   className="py-2 px-4 bg-green text-black rounded-full text-2xl btn-hover"
@@ -68,7 +67,7 @@ const Settings = () => {
               <>
                 <div className="mt-8">
                   <h1 className="text-xl font-bold">Your Subscription Plan</h1>
-                  <p className="mt-2">Free</p>
+                  <p className="mt-2">{isPremium ? "Premium" : "Free"}</p>
                 </div>
                 <div className="w-full bg-gray-300 h-px rounded-full my-4"></div>
                 <div className="mt-8">
