@@ -20,12 +20,13 @@ import {
   setDoc,
   updateDoc,
 } from "firebase/firestore";
-import { auth, db } from "@/firebase";
+import { app, auth, db } from "@/firebase";
 import { onAuthStateChanged } from "firebase/auth";
 import { setUser } from "@/lib/features/auth/authSlice";
 import { useDispatch } from "react-redux";
 import Image from "next/image";
 import { toggleModal } from "@/lib/features/modal/modalSlice";
+import { getPremiumStatus } from "@/app/(premium)/(routes)/upgrade/getSubscriptionStatus";
 
 interface bookmarkData {
   bookIds: string[];
@@ -33,14 +34,17 @@ interface bookmarkData {
 
 const BookPage = ({ params }: { params: { bookid: string } }) => {
   const [loading, setLoading] = useState<boolean>(true);
+  const [loadingStatus, setLoadingStatus] = useState<boolean>(true);
+  const [loadingBookmark, setLoadingBookmark] = useState<boolean>(true);
+
   const [book, setBook] = useState<Book>();
   const audioRef = useRef<HTMLAudioElement>(null);
   const [duration, setDuration] = useState<number | undefined>(undefined);
   const [bookmarked, setBookmarked] = useState<boolean>();
-  // const [bookmarks, setBookmarks] = useState<Book[]>();
   const router = useRouter();
-  const { user, loadingAuth } = useAuth();
+  const { user } = useAuth();
   const dispatch = useDispatch();
+  const [isPremium, setIsPremium] = useState<boolean | undefined>(true);
 
   const durationFormat = (duration: number | any) => {
     if (typeof duration !== "number") {
@@ -117,6 +121,7 @@ const BookPage = ({ params }: { params: { bookid: string } }) => {
 
   useEffect(() => {
     const unsubscribe = onAuthStateChanged(auth, async (user) => {
+      setLoadingBookmark(true);
       if (user) {
         try {
           const docSnap = await getDoc(doc(db, "saved", user.email!));
@@ -130,13 +135,34 @@ const BookPage = ({ params }: { params: { bookid: string } }) => {
             if (bookMarkFound.length === 1) setBookmarked(true);
             console.log(data);
           }
+          setLoadingBookmark(false);
         } catch (error) {
           console.log("bookmark fetch error", error);
+          setLoadingBookmark(false);
         }
       }
     });
     return () => unsubscribe();
   }, [dispatch, params.bookid]);
+
+  useEffect(() => {
+    const getStatus = async () => {
+      setLoadingStatus(true);
+
+      if (!!user) {
+        try {
+          const status = await getPremiumStatus(app, user?.uid);
+          setIsPremium(status);
+          setLoadingStatus(false);
+        } catch (error) {
+          console.log(error);
+          setLoadingStatus(false);
+        }
+      }
+    };
+
+    getStatus();
+  }, [user]);
 
   return (
     <>
@@ -147,7 +173,7 @@ const BookPage = ({ params }: { params: { bookid: string } }) => {
         onLoadedMetadata={onLoadedMetadata}
       ></audio>
       <PageContainer>
-        {loading ? (
+        {loading && loadingBookmark && loadingStatus ? (
           <>
             <div className="flex flex-row justify-between">
               <div className="flex flex-col gap-3">
@@ -178,7 +204,7 @@ const BookPage = ({ params }: { params: { bookid: string } }) => {
           <div className="flex gap-6 justify-between">
             <div className="flex flex-col max-w-[65%]">
               <h1 className="text-[32px] font-bold">
-                {book?.subscriptionRequired
+                {book?.subscriptionRequired && !isPremium
                   ? book?.title + " (Premium)"
                   : book?.title}
               </h1>
@@ -212,14 +238,22 @@ const BookPage = ({ params }: { params: { bookid: string } }) => {
 
               <div className="flex gap-4 mb-6">
                 <button
-                  onClick={() => router.push("/player/" + book?.id)}
+                  onClick={() =>
+                    isPremium
+                      ? router.push("/player/" + book?.id)
+                      : router.push("/upgrade")
+                  }
                   className="rounded-lg bg-green py-4 px-10 text-black font-bold text-[16px] flex flex-row items-center justify-center gap-2 hover:brightness-90"
                 >
                   <PiBookOpenText color="black" size={24} />
                   Read
                 </button>
                 <button
-                  onClick={() => router.push("/player/" + book?.id)}
+                  onClick={() =>
+                    isPremium
+                      ? router.push("/player/" + book?.id)
+                      : router.push("/upgrade")
+                  }
                   className="rounded-lg bg-green py-4 px-10 text-black font-bold text-[16px] flex flex-row items-center justify-center gap-2 hover:brightness-90"
                 >
                   <CiMicrophoneOn strokeWidth={0.5} color="black" size={24} />

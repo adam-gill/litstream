@@ -14,22 +14,18 @@ import { app } from "@/firebase";
 const Settings = () => {
   const { user, loadingAuth } = useAuth();
   const dispatch = useDispatch();
-  const [isPremium, setIsPremium] = useState<boolean | undefined>(undefined);
-  const [loading, setLoading] = useState<boolean>(true);
+  const [isPremium, setIsPremium] = useState<boolean | undefined>(true);
   const router = useRouter();
 
   useEffect(() => {
     const getStatus = async () => {
-      setLoading(true);
       if (!!user) {
         try {
           const status = await getPremiumStatus(app, user?.uid);
           setIsPremium(status);
           console.log(status);
-          setLoading(false);
         } catch (error) {
           console.log(error);
-          setLoading(false);
         }
       }
     };
