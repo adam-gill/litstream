@@ -34,8 +34,6 @@ interface bookmarkData {
 
 const BookPage = ({ params }: { params: { bookid: string } }) => {
   const [loading, setLoading] = useState<boolean>(true);
-  const [loadingStatus, setLoadingStatus] = useState<boolean>(true);
-  const [loadingBookmark, setLoadingBookmark] = useState<boolean>(true);
 
   const [book, setBook] = useState<Book>();
   const audioRef = useRef<HTMLAudioElement>(null);
@@ -121,7 +119,6 @@ const BookPage = ({ params }: { params: { bookid: string } }) => {
 
   useEffect(() => {
     const unsubscribe = onAuthStateChanged(auth, async (user) => {
-      setLoadingBookmark(true);
       if (user) {
         try {
           const docSnap = await getDoc(doc(db, "saved", user.email!));
@@ -135,10 +132,8 @@ const BookPage = ({ params }: { params: { bookid: string } }) => {
             if (bookMarkFound.length === 1) setBookmarked(true);
             console.log(data);
           }
-          setLoadingBookmark(false);
         } catch (error) {
           console.log("bookmark fetch error", error);
-          setLoadingBookmark(false);
         }
       }
     });
@@ -147,16 +142,13 @@ const BookPage = ({ params }: { params: { bookid: string } }) => {
 
   useEffect(() => {
     const getStatus = async () => {
-      setLoadingStatus(true);
 
       if (!!user) {
         try {
           const status = await getPremiumStatus(app, user?.uid);
           setIsPremium(status);
-          setLoadingStatus(false);
         } catch (error) {
           console.log(error);
-          setLoadingStatus(false);
         }
       }
     };
@@ -173,7 +165,7 @@ const BookPage = ({ params }: { params: { bookid: string } }) => {
         onLoadedMetadata={onLoadedMetadata}
       ></audio>
       <PageContainer>
-        {loading && loadingBookmark && loadingStatus ? (
+        {loading ? (
           <>
             <div className="flex flex-row justify-between">
               <div className="flex flex-col gap-3">
