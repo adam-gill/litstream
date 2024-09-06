@@ -3,15 +3,20 @@
 import { Book } from "@/types/types";
 import axios from "axios";
 import { useEffect, useState } from "react";
-import { IoIosSearch, IoIosClose } from "react-icons/io";
+import { IoIosSearch, IoIosClose, IoIosMenu } from "react-icons/io";
 import SearchBook from "./SearchBook";
 import { cn } from "@/lib/utils";
 import Skeleton from "./Skeleton";
+import { setSidebar } from "@/lib/features/sidebar/sidebarSlice";
+import { useDispatch, useSelector } from "react-redux";
+import { RootState } from "@/lib/store";
 
 const SearchBar = () => {
   const [query, setQuery] = useState<string>("");
   const [result, setResult] = useState<Book[]>([]);
   const [loading, setLoading] = useState<boolean>(false);
+  const sidebar = useSelector((state: RootState) => state.sidebar.sidebar);
+  const dispatch = useDispatch();
 
   const delay = (ms: number) => new Promise((res) => setTimeout(res, ms));
 
@@ -41,7 +46,7 @@ const SearchBar = () => {
   return (
     <>
       <div className="flex justify-center items-center w-full h-[84px] border-b-[1px] border-gray-200 bg-white z-50">
-        <div className="w-full max-w-5xl px-8">
+        <div className="w-full max-w-5xl px-8 md:px-0 md:pl-8">
           <div className="w-full flex justify-end items-center relative">
             <input
               value={query}
@@ -75,6 +80,18 @@ const SearchBar = () => {
                   size={28}
                 />
               )}
+            </button>
+            
+            <button 
+            onClick={() => {
+              console.log("clicked");
+              dispatch(setSidebar({
+                ...sidebar,
+                open: !sidebar.open
+              }))
+            }}
+            className="hidden md:block md:px-4">
+              <IoIosMenu size={28} />
             </button>
 
             <div

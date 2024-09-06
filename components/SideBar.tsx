@@ -34,8 +34,10 @@ const fjalla_one = Fjalla_One({ subsets: ["latin"], weight: ["400"] });
 
 const SideBar: React.FC<Props> = ({ open, player }) => {
   const [selectedItem, setSelectedItem] = useState<number>(0);
+  const [sideBarOpen, setSideBarOpen] = useState<boolean>(false);
   const sidebar = useSelector((state: RootState) => state.sidebar.sidebar);
   const dispatch = useDispatch();
+  const [screenWidth, setScreenWidth] = useState(window.innerWidth);
   const { user, loadingAuth } = useAuth();
   const pathname: string = usePathname();
 
@@ -58,21 +60,46 @@ const SideBar: React.FC<Props> = ({ open, player }) => {
   };
 
   useEffect(() => {
-    setSelectedItem(paths[pathname])
-  }, [])
+    const handleResize = () => setScreenWidth(window.innerWidth);
+    window.addEventListener('resize', handleResize);
+    return () => window.removeEventListener('resize', handleResize);
+  }, []);
 
   useEffect(() => {
-    setSelectedItem(paths[pathname])
-  }, [pathname]);
+    if (screenWidth < 767) {
+      // Set open to false when screen width is less than 767px
+      dispatch(
+        setSidebar({
+          ...sidebar,
+          open: false,
+        })
+      )
+    } else {
+      dispatch(
+        setSidebar({
+          ...sidebar,
+          open: true,
+        })
+      )
+    }
+  }, [screenWidth]);
 
+  useEffect(() => {
+    setSelectedItem(paths[pathname]);
+  }, []);
+
+  useEffect(() => {
+    setSelectedItem(paths[pathname]);
+  }, [pathname]);
 
   return (
     <>
       <div
-        className={cn(
-          "flex fixed flex-col w-[225px] bg-[#87CEEB10] overflow-y-auto",
+        className={`${
+          sidebar.open ? "block transition-all duration-300 ease-in-out max-w-[225px] md:max-w-[70%]" : "hidden max-w-0"
+        } flex z-50 fixed flex-col bg-white overflow-y-auto md:max-w-[70%] ${
           player ? "h-offset" : "h-full"
-        )}
+        }`}
       >
         <Link href={"/"}>
           <h1
@@ -84,36 +111,31 @@ const SideBar: React.FC<Props> = ({ open, player }) => {
               marginTop: "8px",
               paddingTop: "16x",
               paddingBottom: "16px",
+              backgroundColor: "#87CEEB10",
             }}
           >
             LitStream
           </h1>
         </Link>
-        <div className="flex flex-col justify-between h-full">
+        <div className="flex flex-col justify-between h-full bg-[#87CEEB10]">
           <div className="flex flex-col">
-            
-              <SideBarItem
-                id={0}
-                icon={<LiaHomeSolid size={28} />}
-                title={"For You"}
-                selected={selectedItem}
-                setSelectedItem={setSelectedItem}
-                path={"/for-you"}
-              />
-              <SideBarItem
-                id={1}
-                icon={<LiaBookmarkSolid size={28} />}
-                title={"My Library"}
-                selected={selectedItem}
-                setSelectedItem={setSelectedItem}
-                path={"/my-library"}
-              />
-            <Link
-              href="/highlights"
-              onClick={() =>
-                setSelectedItem(2)
-              }
-            >
+            <SideBarItem
+              id={0}
+              icon={<LiaHomeSolid size={28} />}
+              title={"For You"}
+              selected={selectedItem}
+              setSelectedItem={setSelectedItem}
+              path={"/for-you"}
+            />
+            <SideBarItem
+              id={1}
+              icon={<LiaBookmarkSolid size={28} />}
+              title={"My Library"}
+              selected={selectedItem}
+              setSelectedItem={setSelectedItem}
+              path={"/my-library"}
+            />
+            <Link href="/highlights" onClick={() => setSelectedItem(2)}>
               <SideBarItem
                 id={2}
                 icon={<LiaPenSolid size={28} />}
@@ -123,12 +145,7 @@ const SideBar: React.FC<Props> = ({ open, player }) => {
                 path={"/highlights"}
               />
             </Link>
-            <Link
-              href="/search"
-              onClick={() =>
-                setSelectedItem(3)
-              }
-            >
+            <Link href="/search" onClick={() => setSelectedItem(3)}>
               <SideBarItem
                 id={3}
                 icon={<LiaSearchSolid size={28} />}
@@ -220,12 +237,7 @@ const SideBar: React.FC<Props> = ({ open, player }) => {
           </div>
 
           <div className="flex flex-col">
-            <Link
-              href="/settings"
-              onClick={() =>
-                setSelectedItem(4)
-              }
-            >
+            <Link href="/settings" onClick={() => setSelectedItem(4)}>
               <SideBarItem
                 id={4}
                 icon={<LiaCogSolid size={28} />}
@@ -235,12 +247,7 @@ const SideBar: React.FC<Props> = ({ open, player }) => {
                 path={"/settings"}
               />
             </Link>
-            <Link
-              href="/help"
-              onClick={() =>
-                setSelectedItem(5)
-              }
-            >
+            <Link href="/help" onClick={() => setSelectedItem(5)}>
               <SideBarItem
                 id={5}
                 icon={<LiaInfoCircleSolid size={28} />}

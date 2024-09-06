@@ -17,7 +17,7 @@ export default function RootLayout({
     <>
       <AuthModal showModal={modal} />
       <SideBar open={true} player={false} />
-      <div className="ml-[225px]">
+      <div className="ml-[225px] md:ml-0">
         <SearchBar />
         {children}
       </div>
