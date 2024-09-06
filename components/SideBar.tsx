@@ -37,7 +37,7 @@ const SideBar: React.FC<Props> = ({ open, player }) => {
   const [sideBarOpen, setSideBarOpen] = useState<boolean>(false);
   const sidebar = useSelector((state: RootState) => state.sidebar.sidebar);
   const dispatch = useDispatch();
-  const [screenWidth, setScreenWidth] = useState(window.innerWidth);
+  const [screenWidth, setScreenWidth] = useState<number>();
   const { user, loadingAuth } = useAuth();
   const pathname: string = usePathname();
 
@@ -66,7 +66,7 @@ const SideBar: React.FC<Props> = ({ open, player }) => {
   }, []);
 
   useEffect(() => {
-    if (screenWidth < 767) {
+    if (!!screenWidth && screenWidth < 767) {
       // Set open to false when screen width is less than 767px
       dispatch(
         setSidebar({
