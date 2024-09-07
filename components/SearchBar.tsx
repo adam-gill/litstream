@@ -90,7 +90,7 @@ const SearchBar = () => {
                 open: !sidebar.open
               }))
             }}
-            className="hidden md:block md:px-4">
+            className="hidden md:block md:px-4 z-[500]">
               <IoIosMenu size={28} />
             </button>
 

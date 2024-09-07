@@ -116,7 +116,7 @@ const Upgrade = () => {
         </div>
       </div>
 
-      <div className="fcc flex-col">
+      <div className="fcc flex-col mx-8">
         <h1 className="font-bold text-[32px] mb-[32px] text-LSblue">
           Choose the right plan for you
         </h1>

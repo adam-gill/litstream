@@ -23,10 +23,12 @@ import {
 import { app, auth, db } from "@/firebase";
 import { onAuthStateChanged } from "firebase/auth";
 import { setUser } from "@/lib/features/auth/authSlice";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import Image from "next/image";
 import { toggleModal } from "@/lib/features/modal/modalSlice";
 import { getPremiumStatus } from "@/app/(premium)/(routes)/upgrade/getSubscriptionStatus";
+import { RootState } from "@/lib/store";
+import { setSidebar } from "@/lib/features/sidebar/sidebarSlice";
 
 interface bookmarkData {
   bookIds: string[];
@@ -43,6 +45,7 @@ const BookPage = ({ params }: { params: { bookid: string } }) => {
   const { user } = useAuth();
   const dispatch = useDispatch();
   const [isPremium, setIsPremium] = useState<boolean | undefined>(true);
+  const sidebar = useSelector((state: RootState) => state.sidebar.sidebar);
 
   const durationFormat = (duration: number | any) => {
     if (typeof duration !== "number") {
@@ -142,7 +145,6 @@ const BookPage = ({ params }: { params: { bookid: string } }) => {
 
   useEffect(() => {
     const getStatus = async () => {
-
       if (!!user) {
         try {
           const status = await getPremiumStatus(app, user?.uid);
@@ -230,22 +232,28 @@ const BookPage = ({ params }: { params: { bookid: string } }) => {
 
               <div className="flex gap-4 mb-6">
                 <button
-                  onClick={() =>
-                    isPremium
-                      ? router.push("/player/" + book?.id)
-                      : router.push("/upgrade")
-                  }
+                  onClick={() => {
+                    if (!isPremium && book?.subscriptionRequired) {
+                      dispatch(setSidebar({ ...sidebar, open: false }));
+                      router.push("/upgrade");
+                    } else {
+                      router.push("/player/" + book?.id);
+                    }
+                  }}
                   className="rounded-lg bg-green py-4 px-10 text-black font-bold text-[16px] flex flex-row items-center justify-center gap-2 hover:brightness-90"
                 >
                   <PiBookOpenText color="black" size={24} />
                   Read
                 </button>
                 <button
-                  onClick={() =>
-                    isPremium
-                      ? router.push("/player/" + book?.id)
-                      : router.push("/upgrade")
-                  }
+                  onClick={() => {
+                    if (!isPremium && book?.subscriptionRequired) {
+                      dispatch(setSidebar({ ...sidebar, open: false }));
+                      router.push("/upgrade");
+                    } else {
+                      router.push("/player/" + book?.id);
+                    }
+                  }}
                   className="rounded-lg bg-green py-4 px-10 text-black font-bold text-[16px] flex flex-row items-center justify-center gap-2 hover:brightness-90"
                 >
                   <CiMicrophoneOn strokeWidth={0.5} color="black" size={24} />

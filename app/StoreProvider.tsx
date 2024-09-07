@@ -2,7 +2,7 @@
 import { useRef } from "react";
 import { Provider } from "react-redux";
 import { makeStore, AppStore } from "../lib/store";
-import { setSidebar } from "@/lib/features/sidebar/sidebarSlice";
+import sidebarSlice, { setSidebar } from "@/lib/features/sidebar/sidebarSlice";
 import { usePathname } from "next/navigation";
 
 export default function StoreProvider({
@@ -21,7 +21,8 @@ export default function StoreProvider({
     // storeRef.current.dispatch(setModal(false))
     storeRef.current.dispatch(
       setSidebar({
-        open: true,
+        open: false,
+        size: "lg",
         player: false,
         tabSelected: 0,
         fontSize: "base",

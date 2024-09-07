@@ -15,7 +15,7 @@ const Accordion: React.FC<accordion> = ({ title, description }) => {
       <div onClick={() => setOpen(!open)} className="flex px-8 w-full flex-col">
         <div className="flex flex-col justify-center items-start w-full cursor-pointer">
           <div className="flex flex-row items-center justify-between w-full">
-            <h1 className="py-6 text-2xl font-semibold text-blue">{title}</h1>
+            <h1 className="py-6 text-2xl font-semibold text-blue md:text-xl max-w-[90%]">{title}</h1>
             <BiChevronDown
               size={36}
               color="#032b41"

@@ -3,6 +3,7 @@ import { createSlice } from '@reduxjs/toolkit'
 import type { PayloadAction } from '@reduxjs/toolkit'
 
 export interface sidebar {
+    size: string,
     open: boolean,
     player: boolean,
     tabSelected: number,
@@ -12,6 +13,7 @@ export interface sidebar {
 
 export interface sidebarState {
   sidebar: {
+    size: string,
     open: boolean,
     player: boolean,
     tabSelected: number,
@@ -22,7 +24,8 @@ export interface sidebarState {
 
 const initialState: sidebarState = {
   sidebar: {
-    open: true,
+    size: "lg",
+    open: false,
     player: false,
     tabSelected: 0,
     fontSize: "base"
