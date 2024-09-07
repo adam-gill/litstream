@@ -58,7 +58,7 @@ const SearchBar = () => {
               }}
               type="text"
               placeholder="Search for books"
-              className="flex w-[340px] text-sm bg-gray-100 border-2 border-gray-300 rounded-md p-2 focus:outline-none md:ml-8"
+              className="flex w-[340px] text-base bg-gray-100 border-2 border-gray-300 rounded-md p-2 focus:outline-none md:ml-8"
             />
             <button
               className="relative h-full"
