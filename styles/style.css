@@ -475,11 +475,17 @@ button:disabled {
     font-size: 24px;
   }
 
+  .footer__block {
+    width: 130px;
+  }
+
   .footer__top--wrapper {
     align-items: center;
-    justify-content: center;
+    justify-content: space-between;
     flex-wrap: wrap;
     gap: 32px;
+    margin-left: 8px;
+    margin-right: 8px;
   }
 
   .numbers__wrapper {

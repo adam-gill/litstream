@@ -62,23 +62,23 @@ const Upgrade = () => {
     <>
       <div className="flex relative flex-col items-center justify-center bg-[#032b41] w-full pt-[48px] upgrade-shape">
         <FaArrowLeft className="absolute top-4 left-4 cursor-pointer" size={28} color="white" onClick={() => router.back()} />
-        <h1 className="font-bold text-white text-[48px] mb-[40px] text-center px-4">
+        <h1 className="font-bold text-white text-[48px] mb-[40px] text-center sm:text-3xl px-4 sm:mt-4">
           Get unlimited access to life changing books
         </h1>
-        <p className="text-white text-[20px] mb-[32px]">
+        <p className="text-white text-[20px] mb-[32px] text-center sm:text-lg sm:mx-6">
           Turn ordinary moments into incredible learning opportunities
         </p>
         <Image
           src="/assets/undraw_upgrade.svg"
           width={340}
           height={340}
-          className="bg-white upgrade-img w-[340px] h-[340px]"
+          className="bg-white upgrade-img w-[340px] h-[340px] sm:w-[250px] sm:h-[250px]"
           alt="upgrade picture"
           priority
         />
       </div>
 
-      <div className="fcc flex-row gap-4 pt-8 mb-[56px]">
+      <div className="fcc flex-row gap-4 pt-8 mb-[56px] sm:flex-wrap">
         <div className="fcc flex-col">
           <Image
             src={"/assets/doc.svg"}
@@ -117,7 +117,7 @@ const Upgrade = () => {
       </div>
 
       <div className="fcc flex-col mx-8">
-        <h1 className="font-bold text-[32px] mb-[32px] text-LSblue">
+        <h1 className="font-bold text-[32px] mb-[32px] text-LSblue text-center sm:text-3xl">
           Choose the right plan for you
         </h1>
 
@@ -139,7 +139,7 @@ const Upgrade = () => {
             <h1 className="text-xl font-bold text-LSblue">{"$49.99/year"}</h1>
             <p className="">{"7-day free trial included"}</p>
           </div>
-          <div className="absolute text-2xl text-red-500 font-bold top-3 right-3">
+          <div className="absolute text-2xl text-red-500 font-bold top-3 right-3 sm:text-lg">
             {"Save 16%"}
           </div>
         </div>
@@ -176,7 +176,7 @@ const Upgrade = () => {
           {loading && <TailSpin stroke="#000" width={28} height={28} speed={2} />}
           {!loading && <div>{yearly ? "Start your free 7-day trial" : "Subscribe now"}</div>}
         </button>
-        <p className="text-sm text-gray-500 mt-4 pb-4">
+        <p className="text-sm text-gray-500 mt-4 pb-4 text-center sm:mx-6 sm:text-xs">
           {"Cancel your trial at any time before it ends and you won't be charged"}
         </p>
       </div>
@@ -185,6 +185,7 @@ const Upgrade = () => {
         {accordionData.map((accordion, index) => (
           <Accordion
             key={index}
+            index={index}
             title={accordion.title}
             description={accordion.description}
           />
