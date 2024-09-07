@@ -62,7 +62,7 @@ const Recommended: React.FC<Props> = ({
       ) : (
         <>
           <h1 className="font-bold text-2xl mb-4 sm:text-center">{title}</h1>
-          <p className="mb-4 sm:text-center">{subtitle}</p>
+          <p className="mb-4 sm:text-center sm:text-lg">{subtitle}</p>
           <div className="w-full flex flex-row flex-wrap gap-2 sm:justify-center sm:items-center">
             {dataUrl
               ? books
