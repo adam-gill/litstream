@@ -9,10 +9,13 @@ import { CiClock2 } from "react-icons/ci";
 interface Props {
   book: Book;
   notLast: boolean;
+  query: string;
+  setQuery: (value: string) => void;
+  setResult: (value: Book[]) => void;
 }
 
 
-const SearchBook: React.FC<Props> = ({ book, notLast }) => {
+const SearchBook: React.FC<Props> = ({ book, notLast, query, setQuery, setResult }) => {
   const [duration, setDuration] = useState<number | undefined>(undefined);
   const audioRef = useRef<HTMLAudioElement>(null);
 
@@ -38,8 +41,15 @@ const SearchBook: React.FC<Props> = ({ book, notLast }) => {
     setDuration(audioRef.current?.duration);
   };
 
+  const handleClick = () => {
+      if (!!query) {
+        setResult([]);
+        setQuery("");
+      }
+  }
+
   return (
-    <>
+    <div onClick={() => handleClick()} >
       <audio
         className="hidden"
         src={book.audioLink}
@@ -60,7 +70,7 @@ const SearchBook: React.FC<Props> = ({ book, notLast }) => {
       </div>
       {notLast && <div className="h-px w-[90%] mx-auto my-2 bg-gray-300"></div>}
       </Link>
-    </>
+    </div>
   );
 };
 

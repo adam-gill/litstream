@@ -105,6 +105,9 @@ const SearchBar = () => {
                     {result.length !== 0 ? (
                       result.map((book, index) => (
                         <SearchBook
+                          query={query}
+                          setQuery={setQuery}
+                          setResult={setResult}
                           key={book.id}
                           book={book}
                           notLast={index !== result.length - 1}
