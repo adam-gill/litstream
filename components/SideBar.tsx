@@ -84,9 +84,9 @@ const SideBar: React.FC<Props> = ({ open, player }) => {
     if (!!screenWidth) {
       if (screenWidth >= 767) {
         dispatch(setSidebar({ ...sidebar, size: "lg" }));
-      } else if (screenWidth < 767 && screenWidth >= 420) {
+      } else if (screenWidth < 767 && screenWidth >= 440) {
         dispatch(setSidebar({ ...sidebar, size: "md" }));
-      } else if (screenWidth < 420) {
+      } else if (screenWidth < 440) {
         dispatch(setSidebar({ ...sidebar, size: "sm" }));
       }
     }
@@ -119,20 +119,20 @@ const SideBar: React.FC<Props> = ({ open, player }) => {
       } else if (
         !!screenWidth &&
         screenWidth <= 767 &&
-        screenWidth > 420 &&
+        screenWidth > 440 &&
         !sidebar.open
       ) {
         setClasses(mdClasses);
       } else if (
         !!screenWidth &&
         screenWidth <= 767 &&
-        screenWidth >= 420 &&
+        screenWidth >= 440 &&
         sidebar.open
       ) {
         setClasses(mdOpenClasses);
-      } else if (!!screenWidth && screenWidth < 420 && !sidebar.open) {
+      } else if (!!screenWidth && screenWidth < 440 && !sidebar.open) {
         setClasses(mdClasses);
-      } else if (!!screenWidth && screenWidth < 420 && sidebar.open) {
+      } else if (!!screenWidth && screenWidth < 440 && sidebar.open) {
         setClasses(mdOpenClasses);
       }
     };
