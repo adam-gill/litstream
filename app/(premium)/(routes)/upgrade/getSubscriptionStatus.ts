@@ -25,12 +25,12 @@ export const getPremiumStatus = async (app: FirebaseApp, userId: string | undefi
       q,
       (snapshot) => {
         // In this implementation we only expect one active or trialing subscription to exist.
-        console.log("Subscription snapshot", snapshot.docs.length);
+        // console.log("Subscription snapshot", snapshot.docs.length);
         if (snapshot.docs.length === 0) {
-          console.log("No active or trialing subscriptions found");
+          // console.log("No active or trialing subscriptions found");
           resolve(false);
         } else {
-          console.log("Active or trialing subscription found");
+          // console.log("Active or trialing subscription found");
           resolve(true);
         }
         unsubscribe();

@@ -48,7 +48,7 @@ const Selected = async () => {
 
     return (
       <>
-        <h1 className="font-bold text-2xl mb-4">Selected just for You</h1>
+        <h1 className="font-bold text-2xl mb-4 sm:text-center">Selected just for You</h1>
         <div className="md:w-full w-[calc(100% / 3)* 2] max-w-[700px] bg-[#fbefd6] rounded-md p-6 mb-6 flex items-start justify-between flex-row">
           <h1 className="w-2/5 md:hidden">{book.subTitle}</h1>
           <div className="md:hidden h-[128px] w-[1px] bg-gray-300 rounded-full mx-6"></div>
@@ -77,7 +77,7 @@ const Selected = async () => {
                       </svg>
                     </button>
                   </Link>
-                  <p className="pl-4">3 min 23 sec</p>
+                  <p className="pl-4 sm:pl-2 sm:text-sm">3 min 23 sec</p>
                 </div>
               </div>
             </div>

@@ -38,7 +38,7 @@ const PlayerPage = ({ params }: { params: { bookid: string } }) => {
 
   return (
     <>
-      <div className="ml-[225px]">
+      <div className="ml-[225px] md:ml-0">
         <PageContainer>
           {loading ? (
             <>
@@ -57,7 +57,7 @@ const PlayerPage = ({ params }: { params: { bookid: string } }) => {
               <div className="w-full bg-gray-300 h-px rounded-full my-4 text-"></div>
               <p
                 className={cn(
-                  "whitespace-pre-line  mb-[80px]",
+                  "whitespace-pre-line  mb-[80px] md:mb-[180px]",
                   `text-${sidebar.fontSize}`
                 )}
               >
@@ -68,16 +68,16 @@ const PlayerPage = ({ params }: { params: { bookid: string } }) => {
         </PageContainer>
       </div>
       {loading ? (
-        <div className="flex fixed flex-row w-full bg-[#042330] h-[80px] bottom-0 py-10 text-white items-center justify-center">
-          <div className="flex items-center justify-start pl-8 w-1/3">
+        <div className="flex fixed flex-row md:flex-col md:gap-4 w-full bg-[#042330] h-[80px] md:h-[180px] bottom-0 py-10 text-white items-center justify-center">
+          <div className="flex items-center justify-start pl-8 md:pl-0 w-1/3 md:w-full md:justify-center">
             <Skeleton className="w-[40px] h-[48px] rounded-md" />
-            <div className="flex flex-col justify-center gap-1 pl-2">
-              <Skeleton className="w-[80px] h-[15px] rounded-full" />
-              <Skeleton className="w-[30px] h-[15px] rounded-full" />
+            <div className="flex flex-col justify-center gap-2 pl-2 md:w-[70%]">
+              <Skeleton className="w-[80px] md:w-full h-[15px] rounded-full" />
+              <Skeleton className="w-[30px] md:w-[50%] h-[15px] rounded-full" />
             </div>
           </div>
 
-          <div className="fcc flex-row gap-4 mx-4 w-1/3">
+          <div className="fcc flex-row gap-4 mx-4 w-1/3 md:w-full">
             <Image
               className="btn-hover"
               src="/assets/forward.svg"
@@ -96,7 +96,7 @@ const PlayerPage = ({ params }: { params: { bookid: string } }) => {
               alt="back 10 seconds"
             />
           </div>
-          <div className="flex w-1/3 items-center justify-end pr-8">
+          <div className="flex w-1/3 md:w-full md:pr-0 items-center justify-end md:justify-center pr-8">
             <Skeleton className="w-full max-w-[300px] h-[15px] rounded-full" />
           </div>
         </div>

@@ -46,8 +46,8 @@ const SearchBar = () => {
   return (
     <>
       <div className="flex justify-center items-center w-full h-[84px] border-b-[1px] border-gray-200 bg-white z-50">
-        <div className="w-full max-w-5xl px-8 md:px-0 md:pl-8">
-          <div className="w-full flex justify-end items-center relative">
+        <div className="w-full max-w-5xl px-8 md:px-0 ">
+          <div className="w-full flex justify-end items-center">
             <input
               value={query}
               onChange={(e) => {
@@ -58,7 +58,7 @@ const SearchBar = () => {
               }}
               type="text"
               placeholder="Search for books"
-              className="flex w-[340px] text-sm bg-gray-100 border-2 border-gray-300 rounded-md p-2 focus:outline-none"
+              className="flex w-[340px] text-sm bg-gray-100 border-2 border-gray-300 rounded-md p-2 focus:outline-none md:ml-8"
             />
             <button
               className="relative h-full"
@@ -95,7 +95,7 @@ const SearchBar = () => {
             </button>
 
             <div
-              className={`w-[400px] min-h-12 max-h-[500px] overflow-auto bg-white shadow-2xl shadow-gray-700 absolute top-[100px] rounded-lg py-4 px-2 z-50 ${
+              className={`w-full max-w-[400px] md:w-[80vw] min-h-12 max-h-[500px] overflow-auto bg-white shadow-2xl shadow-gray-700 absolute top-[100px] md:left-1/2 md:-translate-x-1/2 rounded-lg py-4 px-2 z-50 ${
                 query === "" ? "hidden" : ""
               }`}
             >

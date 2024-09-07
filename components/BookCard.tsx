@@ -53,7 +53,7 @@ const BookCard: React.FC<Props> = ({ book }) => {
         try {
           const status = await getPremiumStatus(app, user?.uid);
           setIsPremium(status);
-          console.log(status);
+          // console.log(status);
         } catch (error) {
           console.log(error);
         }

@@ -41,9 +41,10 @@ const SideBar: React.FC<Props> = ({ open, player }) => {
   const [selectedItem, setSelectedItem] = useState<number>(0);
   const sidebar = useSelector((state: RootState) => state.sidebar.sidebar);
   const dispatch = useDispatch();
-  const [screenWidth, setScreenWidth] = useState<number>();
+  const [screenWidth, setScreenWidth] = useState<number | null>(null);
   const { user, loadingAuth } = useAuth();
   const pathname: string = usePathname();
+  const [classes, setClasses] = useState<string>("");
 
   const paths: any = {
     "/for-you": 0,
@@ -53,6 +54,10 @@ const SideBar: React.FC<Props> = ({ open, player }) => {
     "/settings": 4,
     "/help": 5,
   };
+
+  const lgClasses = "max-w-[225px] ";
+  const mdClasses = "max-w-0 ";
+  const mdOpenClasses = "max-w-[100%] ";
 
   const logout = async () => {
     try {
@@ -64,10 +69,14 @@ const SideBar: React.FC<Props> = ({ open, player }) => {
   };
 
   useEffect(() => {
+    const resize = () => {
+      setScreenWidth(window.innerWidth);
+    };
+
     if (!!window) {
-      const handleResize = () => setScreenWidth(window.innerWidth);
-      window.addEventListener("resize", handleResize);
-      return () => window.removeEventListener("resize", handleResize);
+      resize();
+      window.addEventListener("resize", resize);
+      return () => window.removeEventListener("resize", resize);
     }
   }, []);
 
@@ -103,24 +112,52 @@ const SideBar: React.FC<Props> = ({ open, player }) => {
     setSelectedItem(paths[pathname]);
   }, []);
 
+  useEffect(() => {
+    const computeClasses = () => {
+      if (!!screenWidth && screenWidth > 767) {
+        setClasses(lgClasses);
+      } else if (
+        !!screenWidth &&
+        screenWidth <= 767 &&
+        screenWidth > 420 &&
+        !sidebar.open
+      ) {
+        setClasses(mdClasses);
+      } else if (
+        !!screenWidth &&
+        screenWidth <= 767 &&
+        screenWidth >= 420 &&
+        sidebar.open
+      ) {
+        setClasses(mdOpenClasses);
+      } else if (!!screenWidth && screenWidth < 420 && !sidebar.open) {
+        setClasses(mdClasses);
+      } else if (!!screenWidth && screenWidth < 420 && sidebar.open) {
+        setClasses(mdOpenClasses);
+      }
+    };
+    computeClasses();
+  }, [screenWidth, sidebar]);
+
   return (
     <>
       <div
-        className={`${
-          sidebar.open
-            ? "block transition-all duration-300 ease-in-out max-w-[225px] md:max-w-[70%]"
-            : "hidden max-w-0"
-        } flex fixed  flex-row z-10 overflow-y-auto max-w-[225px] w-full md:max-w-[100%] ${
-          player ? "h-offset" : "h-full"
-        }`}
+        className={`
+        flex fixed flex-row z-10 overflow-y-auto w-full
+        transition-[max-width] duration-300 ease-in-out
+        ${classes ? classes : "max-w-0"}
+        ${player ? "h-offset md:h-full" : "h-full"}`}
       >
         <div className="w-full h-full bg-white md:max-w-[70%]">
-          <div
-            onClick={() => dispatch(setSidebar({ ...sidebar, open: false }))}
-            className="flex flex-col justify-between h-full bg-[#87CEEB10]"
-          >
+          <div className="flex flex-col justify-between h-full bg-[#87CEEB10]">
             <div className="flex flex-col w-full">
-              <Link href={"/for-you"} className="md:max-w-[70%] z-50 bg-white">
+              <Link
+                href={"/for-you"}
+                onClick={() =>
+                  dispatch(setSidebar({ ...sidebar, open: false }))
+                }
+                className="md:max-w-[70%] z-50 bg-white"
+              >
                 <h1
                   className={cn(fjalla_one.className)}
                   style={{
@@ -153,26 +190,24 @@ const SideBar: React.FC<Props> = ({ open, player }) => {
                 setSelectedItem={setSelectedItem}
                 path={"/my-library"}
               />
-              <Link href="/highlights" onClick={() => setSelectedItem(2)}>
-                <SideBarItem
-                  id={2}
-                  icon={<LiaPenSolid size={28} />}
-                  title={"Highlights"}
-                  selected={selectedItem}
-                  setSelectedItem={setSelectedItem}
-                  path={"/highlights"}
-                />
-              </Link>
-              <Link href="/search" onClick={() => setSelectedItem(3)}>
-                <SideBarItem
-                  id={3}
-                  icon={<LiaSearchSolid size={28} />}
-                  title={"Search"}
-                  selected={selectedItem}
-                  setSelectedItem={setSelectedItem}
-                  path={"/search"}
-                />
-              </Link>
+
+              <SideBarItem
+                id={2}
+                icon={<LiaPenSolid size={28} />}
+                title={"Highlights"}
+                selected={selectedItem}
+                setSelectedItem={setSelectedItem}
+                path={"/highlights"}
+              />
+
+              <SideBarItem
+                id={3}
+                icon={<LiaSearchSolid size={28} />}
+                title={"Search"}
+                selected={selectedItem}
+                setSelectedItem={setSelectedItem}
+                path={"/search"}
+              />
 
               {player && (
                 <>
@@ -183,6 +218,7 @@ const SideBar: React.FC<Props> = ({ open, player }) => {
                           setSidebar({
                             ...sidebar,
                             fontSize: "base",
+                            open: false,
                           })
                         )
                       }
@@ -201,6 +237,7 @@ const SideBar: React.FC<Props> = ({ open, player }) => {
                           setSidebar({
                             ...sidebar,
                             fontSize: "lg",
+                            open: false,
                           })
                         )
                       }
@@ -219,6 +256,7 @@ const SideBar: React.FC<Props> = ({ open, player }) => {
                           setSidebar({
                             ...sidebar,
                             fontSize: "xl",
+                            open: false,
                           })
                         )
                       }
@@ -237,6 +275,7 @@ const SideBar: React.FC<Props> = ({ open, player }) => {
                           setSidebar({
                             ...sidebar,
                             fontSize: "2xl",
+                            open: false,
                           })
                         )
                       }
@@ -255,26 +294,24 @@ const SideBar: React.FC<Props> = ({ open, player }) => {
             </div>
 
             <div className="flex flex-col">
-              <Link href="/settings" onClick={() => setSelectedItem(4)}>
-                <SideBarItem
-                  id={4}
-                  icon={<LiaCogSolid size={28} />}
-                  title={"Settings"}
-                  selected={selectedItem}
-                  setSelectedItem={setSelectedItem}
-                  path={"/settings"}
-                />
-              </Link>
-              <Link href="/help" onClick={() => setSelectedItem(5)}>
-                <SideBarItem
-                  id={5}
-                  icon={<LiaInfoCircleSolid size={28} />}
-                  title={"Help & Support"}
-                  selected={selectedItem}
-                  setSelectedItem={setSelectedItem}
-                  path={"/help"}
-                />
-              </Link>
+              <SideBarItem
+                id={4}
+                icon={<LiaCogSolid size={28} />}
+                title={"Settings"}
+                selected={selectedItem}
+                setSelectedItem={setSelectedItem}
+                path={"/settings"}
+              />
+
+              <SideBarItem
+                id={5}
+                icon={<LiaInfoCircleSolid size={28} />}
+                title={"Help & Support"}
+                selected={selectedItem}
+                setSelectedItem={setSelectedItem}
+                path={"/help"}
+              />
+
               <div
                 className="cursor-pointer"
                 onClick={() => {

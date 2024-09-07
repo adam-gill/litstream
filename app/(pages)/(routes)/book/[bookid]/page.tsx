@@ -195,17 +195,17 @@ const BookPage = ({ params }: { params: { bookid: string } }) => {
             </div>
           </>
         ) : (
-          <div className="flex gap-6 justify-between">
-            <div className="flex flex-col max-w-[65%]">
-              <h1 className="text-[32px] font-bold">
+          <div className="flex gap-6 justify-between sm:flex-col-reverse sm:items-center">
+            <div className="flex flex-col max-w-[65%] sm:max-w-[90%]">
+              <h1 className="text-[32px] sm:text-[24px] font-bold">
                 {book?.subscriptionRequired && !isPremium
                   ? book?.title + " (Premium)"
                   : book?.title}
               </h1>
-              <p className="text-[16px] font-bold">{book?.author}</p>
-              <p className="text-[20px]">{book?.subTitle}</p>
+              <p className="text-[16px] sm:text-[14px] font-bold sm:my-2">{book?.author}</p>
+              <p className="text-[20px] sm:text-[18px]">{book?.subTitle}</p>
               <div className="w-full bg-gray-300 h-px rounded-full my-4"></div>
-              <div className="flex flex-row gap-8">
+              <div className="flex flex-row gap-8 sm:text-sm">
                 <div className="flex flex-col gap-4">
                   <div className="flex flex-row items-center font-bold gap-2">
                     <CiStar size={24} strokeWidth={0.75} />
@@ -230,7 +230,7 @@ const BookPage = ({ params }: { params: { bookid: string } }) => {
               {/* Last horizontal line - start buttons */}
               <div className="w-full bg-gray-300 h-px rounded-full my-4"></div>
 
-              <div className="flex gap-4 mb-6">
+              <div className="flex gap-4 mb-6 sm:justify-center sm:items-center">
                 <button
                   onClick={() => {
                     if (!isPremium && book?.subscriptionRequired) {
@@ -240,7 +240,7 @@ const BookPage = ({ params }: { params: { bookid: string } }) => {
                       router.push("/player/" + book?.id);
                     }
                   }}
-                  className="rounded-lg bg-green py-4 px-10 text-black font-bold text-[16px] flex flex-row items-center justify-center gap-2 hover:brightness-90"
+                  className="rounded-lg bg-green py-4 px-10 sm:px-6 sm:w-40 text-black font-bold text-[16px] flex flex-row items-center justify-center gap-2 hover:brightness-90"
                 >
                   <PiBookOpenText color="black" size={24} />
                   Read
@@ -254,7 +254,7 @@ const BookPage = ({ params }: { params: { bookid: string } }) => {
                       router.push("/player/" + book?.id);
                     }
                   }}
-                  className="rounded-lg bg-green py-4 px-10 text-black font-bold text-[16px] flex flex-row items-center justify-center gap-2 hover:brightness-90"
+                  className="rounded-lg bg-green py-4 px-10 sm:px-6 sm:w-40 text-black font-bold text-[16px] flex flex-row items-center justify-center gap-2 hover:brightness-90"
                 >
                   <CiMicrophoneOn strokeWidth={0.5} color="black" size={24} />
                   Listen

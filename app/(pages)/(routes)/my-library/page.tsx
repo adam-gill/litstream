@@ -70,21 +70,25 @@ const MyLibrary = () => {
         <div className="w-full flex flex-col">
 
         
-        {loading ? (
+        {!loading ? (
           <>
+            <div className="sm:flex sm:items-center sm:justify-center sm:flex-col">
+
+            
             <Skeleton className="w-[70%] h-[50px] rounded-lg mb-2" />
-            <Skeleton className="w-[40%] h-[30px] rounded-lg" />
+            <Skeleton className="w-[40%] h-[30px] rounded-lg sm:mb-4" />
             <div className="w-full flex flex-row flex-wrap justify-around">
               {new Array(5).fill(0).map((_, index) => (
                 <BookSkeleton key={index} />
               ))}
             </div>
             <Skeleton className="w-[70%] h-[50px] rounded-lg mb-2" />
-            <Skeleton className="w-[40%] h-[30px] rounded-lg" />
+            <Skeleton className="w-[40%] h-[30px] rounded-lg sm:mb-4" />
             <div className="w-full flex flex-row flex-wrap justify-around">
               {new Array(5).fill(0).map((_, index) => (
                 <BookSkeleton key={index} />
               ))}
+            </div>
             </div>
           </>
         ) : (

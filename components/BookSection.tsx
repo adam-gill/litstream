@@ -25,8 +25,6 @@ const Recommended: React.FC<Props> = ({
   const [loading, setLoading] = useState<boolean>(true);
   const delay = (ms: number) => new Promise((res) => setTimeout(res, ms));
 
-  
-
   useEffect(() => {
     const getRecommended = async () => {
       if (!dataUrl) {
@@ -51,25 +49,27 @@ const Recommended: React.FC<Props> = ({
     <>
       {loading && dataUrl ? (
         <>
-          <Skeleton className="w-[70%] h-[50px] rounded-lg mb-2" />
-          <Skeleton className="w-[40%] h-[30px] rounded-lg" />
-          <div className="w-full flex flex-row flex-wrap justify-around">
-            {new Array(5).fill(0).map((_, index) => (
-              <BookSkeleton key={index} />
-            ))}
+          <div className="sm:flex sm:items-center sm:justify-center flex-col">
+            <Skeleton className="w-[70%] sm:w-[80%] h-[50px] rounded-lg mb-2" />
+            <Skeleton className="w-[40%] sm:w-[50%] h-[30px] rounded-lg sm:mb-4" />
+            <div className="w-full flex flex-row flex-wrap justify-around">
+              {new Array(5).fill(0).map((_, index) => (
+                <BookSkeleton key={index} />
+              ))}
+            </div>
           </div>
         </>
       ) : (
         <>
-            <h1 className="font-bold text-2xl mb-4">{title}</h1>
-            <p className="mb-4">{subtitle}</p>
-            <div className="w-full flex flex-row flex-wrap gap-2">
-              {dataUrl
-                ? books
-                    .slice(0, 5)
-                    .map((book) => <BookCard key={book.id} book={book} />)
-                : books.map((book) => <BookCard key={book.id} book={book} />)}
-            </div>
+          <h1 className="font-bold text-2xl mb-4 sm:text-center">{title}</h1>
+          <p className="mb-4 sm:text-center">{subtitle}</p>
+          <div className="w-full flex flex-row flex-wrap gap-2 sm:justify-center sm:items-center">
+            {dataUrl
+              ? books
+                  .slice(0, 5)
+                  .map((book) => <BookCard key={book.id} book={book} />)
+              : books.map((book) => <BookCard key={book.id} book={book} />)}
+          </div>
         </>
       )}
     </>

@@ -1,5 +1,11 @@
+"use client";
+
 import { ReactNode, useEffect } from "react";
 import { useRouter } from "next/navigation";
+import { useDispatch, useSelector } from "react-redux";
+import { RootState } from "@/lib/store";
+import { setSidebar } from "@/lib/features/sidebar/sidebarSlice";
+
 
 type Props = {
   setSelectedItem: (value: number) => void;
@@ -19,6 +25,8 @@ const SideBarItem: React.FC<Props> = ({
   path,
 }) => {
   const router = useRouter();
+  const sidebar = useSelector((state: RootState) => state.sidebar.sidebar);
+  const dispatch = useDispatch();
 
 
   const handleClick = () => {
@@ -28,6 +36,7 @@ const SideBarItem: React.FC<Props> = ({
     if (id !== 6) {
       setSelectedItem(id);
     }
+    dispatch(setSidebar({...sidebar, open: false}))
   };
 
   return (

@@ -39,7 +39,7 @@ const ProgressBar: React.FC<Props> = ({ audioRef, progressBarRef, timeProgress, 
   
 
   return (
-    <div className="flex flex-row items-center justify-end gap-3 w-1/3 pr-8">
+    <div className="flex flex-row items-center justify-end gap-3 w-1/3 md:w-full md:justify-center md:pr-0 pr-8">
       <span>{durationFormat(timeProgress)}</span>
       <div className="flex w-full max-w-[300px] items-center justify-center">
         <input

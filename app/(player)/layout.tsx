@@ -9,7 +9,7 @@ export default function RootLayout({
   return (
     <>
       <SideBar open={true} player={true} />
-      <div className="ml-[225px]">
+      <div className="ml-[225px] md:ml-0">
         <SearchBar />
       </div>
       {children}

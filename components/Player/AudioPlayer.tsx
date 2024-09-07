@@ -22,9 +22,9 @@ const AudioPlayer: React.FC<Props> = ({ book }) => {
 
 
   return (
-    <div className="flex fixed w-full bg-[#042330] h-[80px] bottom-0 text-white items-center justify-center px-6">
+    <div className="flex fixed w-full bg-[#042330] h-[80px] md:h-[180px] md:flex-col md:justify-around md:py-2 bottom-0 text-white items-center justify-center px-6">
       {book && (
-        <div className="flex flex-row items-center justify-start gap-2 w-1/3 pl-8">
+        <div className="flex flex-row items-center justify-start gap-2 w-1/3 md:w-full md:justify-center pl-8">
           <Image src={book.imageLink} width={48} height={48} alt="book image" />
           <div>
             <h1 className="text-sm font-semibold">{book.title}</h1>
