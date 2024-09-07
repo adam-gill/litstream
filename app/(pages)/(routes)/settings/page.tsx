@@ -39,9 +39,9 @@ const Settings = () => {
         {loadingAuth ? (
           <>
             <div className="flex flex-col">
-              <Skeleton className="w-[200px] h-[80px] rounded-lg" />
-              <Skeleton className="w-[600px] h-[60px] rounded-lg mt-8" />
-              <Skeleton className="w-[600px] h-[60px] rounded-lg mt-8" />
+              <Skeleton className="w-[200px] h-[80px] rounded-lg sm:h-[60px]" />
+              <Skeleton className="w-[600px] h-[60px] rounded-lg mt-8 sm:w-[90%]" />
+              <Skeleton className="w-[600px] h-[60px] rounded-lg mt-8 sm:w-[90%]" />
             </div>
           </>
         ) : (

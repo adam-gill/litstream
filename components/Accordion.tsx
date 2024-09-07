@@ -28,11 +28,11 @@ const Accordion: React.FC<accordion> = ({ title, description, index }) => {
             />
           </div>
           <div
-            className={`overflow-hidden transition duration-300 ease-in-out ${
-              open ? "h-auto pb-4" : "h-0 pb-0"
+            className={`overflow-hidden transition-all duration-300 ease-in-out ${
+              open ? "h-auto" : "h-0"
             }`}
           >
-            <p className={`transition duration-300 ease-in-out sm:text-sm`}>{description}</p>
+            <p className={`transition-all duration-300 ease-in-out pb-4 sm:text-sm`}>{description}</p>
           </div>
         </div>
         <div className={`${index === 3 ? "hidden" : ""}bg-gray-300 h-px w-full`}></div>
