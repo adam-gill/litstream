@@ -61,6 +61,7 @@ const AuthModal: React.FC<Props> = ({ showModal }) => {
         return router.refresh();
       }
     } catch (error) {
+      setLoading(false);
       console.log(error);
     }
   };
@@ -88,6 +89,7 @@ const AuthModal: React.FC<Props> = ({ showModal }) => {
         return router.refresh();
       }
     } catch (error) {
+      setLoading(false);
       console.log(error);
     }
   };
@@ -98,7 +100,10 @@ const AuthModal: React.FC<Props> = ({ showModal }) => {
     e.preventDefault();
     const provider = new GoogleAuthProvider();
     const userCredential = await signInWithPopup(auth, provider).catch(
-      (error) => console.log("google sign in error", error)
+      (error) => {
+        setLoading(false);
+        console.log("google sign in error", error);
+      }
     );
 
     getRedirectResult(auth)
@@ -134,7 +139,7 @@ const AuthModal: React.FC<Props> = ({ showModal }) => {
       );
 
       dispatch(toggleModal());
-      setLoading(true);
+      setLoading(false);
       if (pathname === "/") {
         setEmail("");
         setPassword("");
@@ -145,6 +150,7 @@ const AuthModal: React.FC<Props> = ({ showModal }) => {
         return router.refresh();
       }
     } catch (error) {
+      setLoading(false);
       console.log("sign up error", error);
       throw error;
     }
@@ -243,8 +249,12 @@ const AuthModal: React.FC<Props> = ({ showModal }) => {
               }
               className="w-full relative rounded-lg flex text-xl items-center justify-center bg-[#2bd97c] text-black h-[40px] cursor-pointer hover:brightness-90 my-4"
             >
-              {loading ? <TailSpin stroke="#000" width={28} height={28} speed={2}/> : (
-                isLogin ? "Login" : "Sign Up"
+              {loading ? (
+                <TailSpin stroke="#000" width={28} height={28} speed={2} />
+              ) : isLogin ? (
+                "Login"
+              ) : (
+                "Sign Up"
               )}
             </button>
           </form>

@@ -169,19 +169,19 @@ const BookPage = ({ params }: { params: { bookid: string } }) => {
       <PageContainer>
         {loading ? (
           <>
-            <div className="flex flex-row justify-between">
-              <div className="flex flex-col gap-3">
-                <Skeleton className="w-[256px] h-[40px] rounded-lg" />
-                <Skeleton className="w-[96px] h-[25px] rounded-lg" />
-                <Skeleton className="w-[340px] h-[32px] rounded-lg" />
-                <Skeleton className="w-[280px] h-[32px] rounded-lg" />
-                <Skeleton className="w-[200px] h-[32px] rounded-lg" />
-                <Skeleton className="w-[280px] h-[32px] rounded-lg" />
+            <div className="flex flex-row justify-between sm:flex-col-reverse sm:items-center sm:justify-center">
+              <div className="flex flex-col gap-3 md:w-2/5 sm:w-full">
+                <Skeleton className="w-[256px] h-[40px] rounded-lg md:w-full" />
+                <Skeleton className="w-[96px] h-[25px] rounded-lg md:w-[70%]" />
+                <Skeleton className="w-[340px] h-[32px] rounded-lg md:w-[60%]" />
+                <Skeleton className="w-[280px] h-[32px] rounded-lg md:w-[90%]" />
+                <Skeleton className="w-[200px] h-[32px] rounded-lg md:w-full" />
+                <Skeleton className="w-[280px] h-[32px] rounded-lg md:w-[50%]" />
               </div>
 
-              <Skeleton className="w-[300px] h-[300px] rounded-lg" />
+              <Skeleton className="w-[300px] h-[300px] rounded-lg md:w-3/5 md:ml-8 sm:w-4/5 sm:ml-0 sm:mb-6" />
             </div>
-            <div className="flex flex-col gap-[32px] mt-10">
+            <div className="flex flex-col gap-[18px] mt-10">
               <Skeleton className="w-full h-[32px] rounded-lg" />
               <Skeleton className="w-full h-[32px] rounded-lg" />
               <Skeleton className="w-full h-[32px] rounded-lg" />

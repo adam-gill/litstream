@@ -38,7 +38,7 @@ type Screens = {
 const fjalla_one = Fjalla_One({ subsets: ["latin"], weight: ["400"] });
 
 const SideBar: React.FC<Props> = ({ open, player }) => {
-  const [selectedItem, setSelectedItem] = useState<number>(0);
+  const [selectedItem, setSelectedItem] = useState<number>(-1);
   const sidebar = useSelector((state: RootState) => state.sidebar.sidebar);
   const dispatch = useDispatch();
   const [screenWidth, setScreenWidth] = useState<number | null>(null);
@@ -110,7 +110,8 @@ const SideBar: React.FC<Props> = ({ open, player }) => {
 
   useEffect(() => {
     setSelectedItem(paths[pathname]);
-  }, []);
+    console.log(selectedItem)
+  }, [pathname]);
 
   useEffect(() => {
     const computeClasses = () => {
@@ -145,7 +146,7 @@ const SideBar: React.FC<Props> = ({ open, player }) => {
         className={`
         flex fixed flex-row z-10 overflow-y-auto w-full
         transition-[max-width] duration-300 ease-in-out
-        ${classes ? classes : "max-w-0"}
+        ${classes ? classes : "md:max-w-0 max-w-[225px]"}
         ${player ? "h-offset md:h-full" : "h-full"}`}
       >
         <div className="w-full h-full bg-white md:max-w-[70%]">

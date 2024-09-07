@@ -27,7 +27,7 @@ const initialState: sidebarState = {
     size: "lg",
     open: false,
     player: false,
-    tabSelected: 0,
+    tabSelected: -1,
     fontSize: "base"
   }
 }
